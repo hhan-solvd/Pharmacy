@@ -5,7 +5,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ConnectionPool {
-    private List<Connection> connectionPool;
+private static ConnectionPool instance = null;
+    private static final int INITIAL_POOL_SIZE = 5;
+    private static Vector<Connection> freeConnections = new Vector<>();
+    private static Vector<Connection> usedConnections = new Vector<>();
 
     public ConnectionPool(int poolSize) {
         this.connectionPool = new ArrayList<>(poolSize);
