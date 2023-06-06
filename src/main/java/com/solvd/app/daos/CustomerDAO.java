@@ -13,7 +13,7 @@ import java.util.List;
 public class CustomerDAO implements IBaseDAO<Customer> {
     private static final Logger LOGGER = LogManager.getLogger(CustomerDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
-    private PersonDAO personDAO;
+    private PersonDAO personDAO = new PersonDAO();
 
     public CustomerDAO(ConnectionPool connectionPool, PersonDAO personDAO) {
         this.connectionPool = connectionPool;
