@@ -10,6 +10,13 @@ private static ConnectionPool instance = null;
     private static Vector<Connection> freeConnections = new Vector<>();
     private static Vector<Connection> usedConnections = new Vector<>();
 
+public static synchronized ConnectionPool getInstance() {
+        if (instance == null) {
+            instance = new ConnectionPool();
+            create();
+        }
+        return instance;
+    }
     public ConnectionPool(int poolSize) {
         this.connectionPool = new ArrayList<>(poolSize);
 
