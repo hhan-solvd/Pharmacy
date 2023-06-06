@@ -12,7 +12,7 @@ import java.util.List;
 
 public class CustomerDAO implements IBaseDAO<Customer> {
     private static final Logger LOGGER = LogManager.getLogger(CustomerDAO.class);
-    private ConnectionPool connectionPool;
+    private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private PersonDAO personDAO;
 
     public CustomerDAO(ConnectionPool connectionPool, PersonDAO personDAO) {
