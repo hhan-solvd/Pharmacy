@@ -3,9 +3,8 @@ package com.solvd.app.interfaces;
 import com.solvd.app.models.Pharmacy;
 import com.solvd.app.models.Staff;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public interface IStaffDAO extends IBaseDAO<Staff> {
-    List<Staff> getStaffByPharmacy(Pharmacy pharmacy) throws SQLException;
+    List<Staff> getStaffByPharmacy(Pharmacy pharmacy);
 }

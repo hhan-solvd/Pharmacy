@@ -1,35 +1,30 @@
 package com.solvd.app.services;
 
-import com.solvd.app.daos.CustomerDAO;
+import com.solvd.app.dao.CustomerDAO;
 import com.solvd.app.models.Customer;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class CustomerService {
-    private CustomerDAO customerDAO;
+    private CustomerDAO customerDAO = new CustomerDAO();
 
-    public CustomerService(CustomerDAO customerDAO) {
-        this.customerDAO = customerDAO;
-    }
-
-    public void createCustomer(Customer customer) throws SQLException {
+    public void createCustomer(Customer customer) {
         customerDAO.createEntity(customer);
     }
 
-    public Customer getCustomerByID(int id) throws SQLException {
+    public Customer getCustomerByID(int id) {
         return customerDAO.getEntityByID(id);
     }
 
-    public void updateCustomer(Customer customer) throws SQLException {
+    public void updateCustomer(Customer customer) {
         customerDAO.updateEntity(customer);
     }
 
-    public void deleteCustomerByID(int id) throws SQLException {
+    public void deleteCustomerByID(int id) {
         customerDAO.deleteEntityByID(id);
     }
 
-    public List<Customer> getAllCustomers() throws SQLException {
+    public List<Customer> getAllCustomers() {
         return customerDAO.getAll();
     }
 }

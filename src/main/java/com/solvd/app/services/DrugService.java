@@ -1,40 +1,35 @@
 package com.solvd.app.services;
 
-import com.solvd.app.daos.DrugDAO;
+import com.solvd.app.dao.DrugDAO;
 import com.solvd.app.models.Drug;
 import com.solvd.app.models.Manufacturer;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class DrugService {
-    private DrugDAO drugDAO;
+    private DrugDAO drugDAO = new DrugDAO();
 
-    public DrugService(DrugDAO drugDAO) {
-        this.drugDAO = drugDAO;
-    }
-
-    public void createDrug(Drug drug) throws SQLException {
+    public void createDrug(Drug drug) {
         drugDAO.createEntity(drug);
     }
 
-    public Drug getDrugByID(int id) throws SQLException {
+    public Drug getDrugByID(int id) {
         return drugDAO.getEntityByID(id);
     }
 
-    public void updateDrug(Drug drug) throws SQLException {
+    public void updateDrug(Drug drug) {
         drugDAO.updateEntity(drug);
     }
 
-    public void deleteDrugByID(int id) throws SQLException {
+    public void deleteDrugByID(int id) {
         drugDAO.deleteEntityByID(id);
     }
 
-    public List<Drug> getAllDrugs() throws SQLException {
+    public List<Drug> getAllDrugs() {
         return drugDAO.getAll();
     }
 
-    public List<Drug> getDrugsByManufacturer(Manufacturer manufacturer) throws SQLException {
+    public List<Drug> getDrugsByManufacturer(Manufacturer manufacturer) {
         return drugDAO.getDrugsByManufacturer(manufacturer);
     }
 }

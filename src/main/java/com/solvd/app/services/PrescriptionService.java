@@ -1,40 +1,35 @@
 package com.solvd.app.services;
 
-import com.solvd.app.daos.PrescriptionDAO;
+import com.solvd.app.dao.PrescriptionDAO;
 import com.solvd.app.models.Doctor;
 import com.solvd.app.models.Prescription;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class PrescriptionService {
-    private PrescriptionDAO prescriptionDAO;
+    private PrescriptionDAO prescriptionDAO = new PrescriptionDAO();
 
-    public PrescriptionService(PrescriptionDAO prescriptionDAO) {
-        this.prescriptionDAO = prescriptionDAO;
-    }
-
-    public void createPrescription(Prescription prescription) throws SQLException {
+    public void createPrescription(Prescription prescription) {
         prescriptionDAO.createEntity(prescription);
     }
 
-    public Prescription getPrescriptionByID(int id) throws SQLException {
+    public Prescription getPrescriptionByID(int id) {
         return prescriptionDAO.getEntityByID(id);
     }
 
-    public void updatePrescription(Prescription prescription) throws SQLException {
+    public void updatePrescription(Prescription prescription) {
         prescriptionDAO.updateEntity(prescription);
     }
 
-    public void deletePrescriptionByID(int id) throws SQLException {
+    public void deletePrescriptionByID(int id) {
         prescriptionDAO.deleteEntityByID(id);
     }
 
-    public List<Prescription> getAllPrescriptions() throws SQLException {
+    public List<Prescription> getAllPrescriptions() {
         return prescriptionDAO.getAll();
     }
 
-    public List<Prescription> getPrescriptionsByDoctors(Doctor doctor) throws SQLException {
+    public List<Prescription> getPrescriptionsByDoctors(Doctor doctor) {
         return prescriptionDAO.getPrescriptionsByDoctor(doctor);
     }
 }

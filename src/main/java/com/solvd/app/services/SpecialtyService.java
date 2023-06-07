@@ -1,35 +1,30 @@
 package com.solvd.app.services;
 
-import com.solvd.app.daos.SpecialtyDAO;
+import com.solvd.app.dao.SpecialtyDAO;
 import com.solvd.app.models.Specialty;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class SpecialtyService {
-    private SpecialtyDAO specialtyDAO;
+    private SpecialtyDAO specialtyDAO = new SpecialtyDAO();
 
-    public SpecialtyService(SpecialtyDAO specialtyDAO) {
-        this.specialtyDAO = specialtyDAO;
-    }
-
-    public void createSpecialty(Specialty specialty) throws SQLException {
+    public void createSpecialty(Specialty specialty) {
         specialtyDAO.createEntity(specialty);
     }
 
-    public Specialty getSpecialtyByID(int id) throws SQLException {
+    public Specialty getSpecialtyByID(int id) {
         return specialtyDAO.getEntityByID(id);
     }
 
-    public void updateSpecialty(Specialty specialty) throws SQLException {
+    public void updateSpecialty(Specialty specialty) {
         specialtyDAO.updateEntity(specialty);
     }
 
-    public void deleteSpecialtyByID(int id) throws SQLException {
+    public void deleteSpecialtyByID(int id) {
         specialtyDAO.deleteEntityByID(id);
     }
 
-    public List<Specialty> getAllSpecialties() throws SQLException {
+    public List<Specialty> getAllSpecialties() {
         return specialtyDAO.getAll();
     }
 }

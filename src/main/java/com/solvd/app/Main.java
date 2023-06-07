@@ -1,23 +1,16 @@
 package com.solvd.app;
 
-import java.sql.SQLException;
-
-import com.solvd.app.daos.*;
 import com.solvd.app.models.*;
 import com.solvd.app.services.*;
-import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Main {
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
-    public static void main(String[] args) throws SQLException {
-        ConnectionPool connectionPool = new ConnectionPool(5);
-
+    public static void main(String[] args) {
         LOGGER.info("------------------Usage of PersonService---------------------");
-        PersonDAO personDAO = new PersonDAO(connectionPool);
-        PersonService personService = new PersonService(personDAO);
+        PersonService personService = new PersonService();
         Person person = new Person("Jack", "4768 Main street", 345543,
                 "test3@example.com", "Male");
         personService.createPerson(person);
@@ -29,8 +22,7 @@ public class Main {
         personService.deletePersonByID(person.getPersonID());
 
         LOGGER.info("------------------Usage of CustomerService---------------------");
-        CustomerDAO customerDAO = new CustomerDAO(connectionPool, personDAO);
-        CustomerService customerService = new CustomerService(customerDAO);
+        CustomerService customerService = new CustomerService();
         Customer customer = new Customer(
                 personService.getPersonByNameAndPhoneNumber("Jack", 345543));
         customerService.createCustomer(customer);
@@ -41,8 +33,7 @@ public class Main {
         customerService.deleteCustomerByID(customer.getCustomerID());
 
         LOGGER.info("------------------Usage of SpecialtyService---------------------");
-        SpecialtyDAO specialtyDAO = new SpecialtyDAO(connectionPool);
-        SpecialtyService specialtyService = new SpecialtyService(specialtyDAO);
+        SpecialtyService specialtyService = new SpecialtyService();
         Specialty specialty = new Specialty("Radiology");
         specialtyService.createSpecialty(specialty);
         LOGGER.info(specialtyService.getSpecialtyByID(specialty.getSpecialtyID()));
@@ -52,8 +43,7 @@ public class Main {
         specialtyService.deleteSpecialtyByID(specialty.getSpecialtyID());
 
         LOGGER.info("------------------Usage of DoctorService---------------------");
-        DoctorDAO doctorDAO = new DoctorDAO(connectionPool, personDAO, specialtyDAO);
-        DoctorService doctorService = new DoctorService(doctorDAO);
+        DoctorService doctorService = new DoctorService();
         Doctor doctor = new Doctor(personService.getPersonByID(28), specialtyService.getSpecialtyByID(17),
                 15);
         doctorService.createDoctor(doctor);
@@ -64,8 +54,7 @@ public class Main {
         doctorService.deleteDoctorByID(doctor.getDoctorID());
 
         LOGGER.info("------------------Usage of PositionService---------------------");
-        PositionDAO positionDAO = new PositionDAO(connectionPool);
-        PositionService positionService = new PositionService(positionDAO);
+        PositionService positionService = new PositionService();
         Position position = new Position("Cashier", 50000);
         positionService.createPosition(position);
         LOGGER.info(positionService.getPositionByID(position.getPositionID()));
@@ -75,8 +64,7 @@ public class Main {
         positionService.deletePositionByID(position.getPositionID());
 
         LOGGER.info("------------------Usage of PharmacyService---------------------");
-        PharmacyDAO pharmacyDAO = new PharmacyDAO(connectionPool);
-        PharmacyService pharmacyService = new PharmacyService(pharmacyDAO);
+        PharmacyService pharmacyService = new PharmacyService();
         Pharmacy pharmacy = new Pharmacy("CVS", "123 Main Street", 123409);
         pharmacyService.createPharmacy(pharmacy);
         LOGGER.info(pharmacyService.getPharmacyByID(pharmacy.getPharmacyID()));
@@ -86,8 +74,7 @@ public class Main {
         pharmacyService.deletePharmacyByID(pharmacy.getPharmacyID());
 
         LOGGER.info("------------------Usage of StaffService---------------------");
-        StaffDAO staffDAO = new StaffDAO(connectionPool, personDAO, pharmacyDAO, positionDAO);
-        StaffService staffService = new StaffService(staffDAO);
+        StaffService staffService = new StaffService();
         Staff staff = new Staff(personService.getPersonByID(31), pharmacyService.getPharmacyByID(9),
                 positionService.getPositionByID(15));
         staffService.createStaff(staff);
@@ -99,8 +86,7 @@ public class Main {
         staffService.deleteStaffByID(staff.getStaffID());
 
         LOGGER.info("------------------Usage of SupplierService---------------------");
-        SupplierDAO supplierDAO = new SupplierDAO(connectionPool);
-        SupplierService supplierService = new SupplierService(supplierDAO);
+        SupplierService supplierService = new SupplierService();
         Supplier supplier = new Supplier("ABC", "876 Main Road", 675432);
         supplierService.createSupplier(supplier);
         LOGGER.info(supplierService.getSupplierByID(supplier.getSupplierID()));
@@ -110,8 +96,7 @@ public class Main {
         supplierService.deleteSupplierByID(supplier.getSupplierID());
 
         LOGGER.info("------------------Usage of ManufacturerService---------------------");
-        ManufacturerDAO manufacturerDAO = new ManufacturerDAO(connectionPool);
-        ManufacturerService manufacturerService = new ManufacturerService(manufacturerDAO);
+        ManufacturerService manufacturerService = new ManufacturerService();
         Manufacturer manufacturer = new Manufacturer("Pfizer");
         manufacturerService.createManufacturer(manufacturer);
         LOGGER.info(manufacturerService.getManufacturerByID(manufacturer.getManufacturerID()));
@@ -121,8 +106,7 @@ public class Main {
         manufacturerService.deleteManufacturerByID(manufacturer.getManufacturerID());
 
         LOGGER.info("------------------Usage of DrugCategoryService---------------------");
-        DrugCategoryDAO drugCategoryDAO = new DrugCategoryDAO(connectionPool);
-        DrugCategoryService drugCategoryService = new DrugCategoryService(drugCategoryDAO);
+        DrugCategoryService drugCategoryService = new DrugCategoryService();
         DrugCategory drugCategory = new DrugCategory("Antibiotic");
         drugCategoryService.createDrugCategory(drugCategory);
         LOGGER.info(drugCategoryService.getDrugCategoryByID(drugCategory.getCategoryID()));
@@ -132,8 +116,7 @@ public class Main {
         drugCategoryService.deleteDrugCategoryByID(drugCategory.getCategoryID());
 
         LOGGER.info("------------------Usage of DrugService---------------------");
-        DrugDAO drugDAO = new DrugDAO(connectionPool, supplierDAO, manufacturerDAO, drugCategoryDAO);
-        DrugService drugService = new DrugService(drugDAO);
+        DrugService drugService = new DrugService();
         Drug drug = new Drug("Penicillin", supplierService.getSupplierByID(11),
                 manufacturerService.getManufacturerByID(16), drugCategoryService.getDrugCategoryByID(9), 18);
         drugService.createDrug(drug);
@@ -145,8 +128,7 @@ public class Main {
         drugService.deleteDrugByID(drug.getDrugID());
 
         LOGGER.info("------------------Usage of InventoryService---------------------");
-        InventoryDAO inventoryDAO = new InventoryDAO(connectionPool, drugDAO, pharmacyDAO);
-        InventoryService inventoryService = new InventoryService(inventoryDAO);
+        InventoryService inventoryService = new InventoryService();
         Inventory inventory = new Inventory(100, drugService.getDrugByID(7),
                 pharmacyService.getPharmacyByID(9));
         inventoryService.createInventory(inventory);
@@ -157,8 +139,7 @@ public class Main {
         inventoryService.deleteInventoryByID(inventory.getInventoryID());
 
         LOGGER.info("------------------Usage of PrescriptionService---------------------");
-        PrescriptionDAO prescriptionDAO = new PrescriptionDAO(connectionPool, doctorDAO, customerDAO);
-        PrescriptionService prescriptionService = new PrescriptionService(prescriptionDAO);
+        PrescriptionService prescriptionService = new PrescriptionService();
         java.util.Date utilDate = new java.util.Date();
         java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
         Prescription prescription = new Prescription(sqlDate, doctorService.getDoctorByID(12),
@@ -172,8 +153,7 @@ public class Main {
         prescriptionService.deletePrescriptionByID(prescription.getPrescriptionID());
 
         LOGGER.info("------------------Usage of PrescriptionItemService---------------------");
-        PrescriptionItemDAO prescriptionItemDAO = new PrescriptionItemDAO(connectionPool, prescriptionDAO, drugDAO);
-        PrescriptionItemService prescriptionItemService = new PrescriptionItemService(prescriptionItemDAO);
+        PrescriptionItemService prescriptionItemService = new PrescriptionItemService();
         PrescriptionItem prescriptionItem = new PrescriptionItem(15,
                 prescriptionService.getPrescriptionByID(13), drugService.getDrugByID(7));
         prescriptionItemService.createPrescriptionItem(prescriptionItem);
