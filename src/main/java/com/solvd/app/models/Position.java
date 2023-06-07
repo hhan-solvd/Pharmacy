@@ -13,12 +13,6 @@ public class Position {
         this.salary = salary;
     }
 
-    public Position(int positionID, String name, double salary) {
-        this.positionID = positionID;
-        this.name = name;
-        this.salary = salary;
-    }
-
     public int getPositionID() {
         return positionID;
     }

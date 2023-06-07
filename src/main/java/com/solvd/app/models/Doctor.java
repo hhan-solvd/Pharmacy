@@ -15,13 +15,6 @@ public class Doctor {
         this.yearsOfExperience = yearsOfExperience;
     }
 
-    public Doctor(int doctorID, Person person, Specialty specialty, int yearsOfExperience) {
-        this.doctorID = doctorID;
-        this.person = person;
-        this.specialty = specialty;
-        this.yearsOfExperience = yearsOfExperience;
-    }
-
     public int getDoctorID() {
         return doctorID;
     }

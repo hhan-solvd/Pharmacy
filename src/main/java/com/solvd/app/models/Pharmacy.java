@@ -15,13 +15,6 @@ public class Pharmacy {
         this.phoneNumber = phoneNumber;
     }
 
-    public Pharmacy(int pharmacyID, String name, String address, int phoneNumber) {
-        this.pharmacyID = pharmacyID;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-    }
-
     public int getPharmacyID() {
         return pharmacyID;
     }

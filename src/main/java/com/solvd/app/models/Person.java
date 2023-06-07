@@ -19,15 +19,6 @@ public class Person {
         this.gender = gender;
     }
 
-    public Person(int personID, String name, String address, int phoneNumber, String email, String gender) {
-        this.personID = personID;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.gender = gender;
-    }
-
     public int getPersonID() {
         return personID;
     }

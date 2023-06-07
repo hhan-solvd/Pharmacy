@@ -15,13 +15,6 @@ public class PrescriptionItem {
         this.drug = drug;
     }
 
-    public PrescriptionItem(int prescriptionItemID, int quantityPrescribed, Prescription prescription, Drug drug) {
-        this.prescriptionItemID = prescriptionItemID;
-        this.quantityPrescribed = quantityPrescribed;
-        this.prescription = prescription;
-        this.drug = drug;
-    }
-
     public int getPrescriptionItemID() {
         return prescriptionItemID;
     }

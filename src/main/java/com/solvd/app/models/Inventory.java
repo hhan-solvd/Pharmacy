@@ -15,13 +15,6 @@ public class Inventory {
         this.pharmacy = pharmacy;
     }
 
-    public Inventory(int inventoryID, int quantity, Drug drug, Pharmacy pharmacy) {
-        this.inventoryID = inventoryID;
-        this.quantity = quantity;
-        this.drug = drug;
-        this.pharmacy = pharmacy;
-    }
-
     public int getInventoryID() {
         return inventoryID;
     }

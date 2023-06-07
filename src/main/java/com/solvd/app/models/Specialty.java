@@ -11,11 +11,6 @@ public class Specialty {
         this.name = name;
     }
 
-    public Specialty(int specialtyID, String name) {
-        this.specialtyID = specialtyID;
-        this.name = name;
-    }
-
     public int getSpecialtyID() {
         return specialtyID;
     }

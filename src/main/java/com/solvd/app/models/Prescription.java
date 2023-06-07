@@ -17,13 +17,6 @@ public class Prescription {
         this.customer = customer;
     }
 
-    public Prescription(int prescriptionID, Date prescriptionDate, Doctor doctor, Customer customer) {
-        this.prescriptionID = prescriptionID;
-        this.prescriptionDate = prescriptionDate;
-        this.doctor = doctor;
-        this.customer = customer;
-    }
-
     public int getPrescriptionID() {
         return prescriptionID;
     }

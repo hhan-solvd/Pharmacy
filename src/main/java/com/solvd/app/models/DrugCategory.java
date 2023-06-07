@@ -11,11 +11,6 @@ public class DrugCategory {
         this.name = name;
     }
 
-    public DrugCategory(int categoryID, String name) {
-        this.categoryID = categoryID;
-        this.name = name;
-    }
-
     public int getCategoryID() {
         return categoryID;
     }

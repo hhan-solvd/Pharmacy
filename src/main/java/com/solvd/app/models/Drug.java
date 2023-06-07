@@ -19,16 +19,6 @@ public class Drug {
         this.price = price;
     }
 
-    public Drug(int drugID, String name, Supplier supplier, Manufacturer manufacturer,
-                DrugCategory drugCategory, double price) {
-        this.drugID = drugID;
-        this.name = name;
-        this.supplier = supplier;
-        this.manufacturer = manufacturer;
-        this.drugCategory = drugCategory;
-        this.price = price;
-    }
-
     public int getDrugID() {
         return drugID;
     }

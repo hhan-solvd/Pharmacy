@@ -11,11 +11,6 @@ public class Manufacturer {
         this.name = name;
     }
 
-    public Manufacturer(int manufacturerID, String name) {
-        this.manufacturerID = manufacturerID;
-        this.name = name;
-    }
-
     public int getManufacturerID() {
         return manufacturerID;
     }

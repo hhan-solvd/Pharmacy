@@ -11,11 +11,6 @@ public class Customer {
         this.person = person;
     }
 
-    public Customer(int customerID, Person person) {
-        this.customerID = customerID;
-        this.person = person;
-    }
-
     public int getCustomerID() {
         return customerID;
     }

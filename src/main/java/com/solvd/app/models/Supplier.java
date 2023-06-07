@@ -15,13 +15,6 @@ public class Supplier {
         this.phoneNumber = phoneNumber;
     }
 
-    public Supplier(int supplierID, String name, String address, int phoneNumber) {
-        this.supplierID = supplierID;
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-    }
-
     public int getSupplierID() {
         return supplierID;
     }

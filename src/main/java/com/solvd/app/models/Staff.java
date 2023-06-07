@@ -15,13 +15,6 @@ public class Staff {
         this.position = position;
     }
 
-    public Staff(int staffID, Person person, Pharmacy pharmacy, Position position) {
-        this.staffID = staffID;
-        this.person = person;
-        this.pharmacy = pharmacy;
-        this.position = position;
-    }
-
     public int getStaffID() {
         return staffID;
     }
