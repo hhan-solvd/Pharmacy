@@ -2,6 +2,8 @@ package com.solvd.app;
 
 import com.solvd.app.models.*;
 import com.solvd.app.services.*;
+import com.solvd.app.utils.DOMParser;
+import com.solvd.app.utils.XMLValidator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -163,5 +165,9 @@ public class Main {
         LOGGER.info(prescriptionItemService.getAllPrescriptionItems());
         LOGGER.info(prescriptionItemService.getItemsByPrescription(prescriptionService.getPrescriptionByID(13)));
         prescriptionItemService.deletePrescriptionItemByID(prescriptionItem.getPrescriptionItemID());
+
+        LOGGER.info("------------------Usage of XML validator and parser---------------------");
+        XMLValidator.validateXMLFile();
+        DOMParser.parseXMLFile();
     }
 }

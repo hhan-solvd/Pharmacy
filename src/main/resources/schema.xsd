@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+    <!-- Define complex types for reusable elements -->
+    <xs:complexType name="person_type">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+            <xs:element name="phone_number" type="xs:int"/>
+            <xs:element name="email" type="xs:string"/>
+            <xs:element name="gender" type="xs:string"/>
+        </xs:sequence>
+        <xs:attribute name="person_id" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="pharmacy_type">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="address" type="xs:string"/>
+            <xs:element name="phone_number" type="xs:int"/>
+        </xs:sequence>
+        <xs:attribute name="pharmacy_id" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="position_type">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="salary" type="xs:double"/>
+        </xs:sequence>
+        <xs:attribute name="position_id" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="staff_type">
+        <xs:sequence>
+            <xs:element name="pharmacy" type="pharmacy_type"/>
+            <xs:element name="people" type="person_type"/>
+            <xs:element name="position" type="position_type"/>
+        </xs:sequence>
+        <xs:attribute name="staff_id" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <xs:complexType name="customer_type">
+        <xs:sequence>
+            <xs:element name="people" type="person_type"/>
+        </xs:sequence>
+        <xs:attribute name="customer_id" type="xs:int" use="required"/>
+    </xs:complexType>
+
+    <!-- Define the root element -->
+    <xs:element name="Pharmacy">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="pharmacies">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="pharmacy" type="pharmacy_type" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="people">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="people" type="person_type" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="positions">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="position" type="position_type" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="staff">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="staff" type="staff_type" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+
+                <xs:element name="customers">
+                    <xs:complexType>
+                        <xs:sequence>
+                            <xs:element name="customer" type="customer_type" maxOccurs="unbounded"/>
+                        </xs:sequence>
+                    </xs:complexType>
+                </xs:element>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+
