@@ -11,6 +11,7 @@ import javax.xml.validation.Validator;
 import java.io.File;
 
 public class XMLValidator {
+
     private static final Logger LOGGER = LogManager.getLogger(XMLValidator.class);
 
     public static void validateXMLFile() {
