@@ -24,9 +24,7 @@ public class XMLValidator {
 
             File xmlFile = new File("src/main/resources/data.xml");
             validator.validate(new StreamSource(xmlFile));
-
             LOGGER.info(xmlFile.getName() + " is valid against " + xsdFile.getName());
-
         } catch (Exception e) {
             LOGGER.error("Exception: " + e.getMessage());
         }
