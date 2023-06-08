@@ -16,10 +16,10 @@ public class DOMParser {
 
     private static final Logger LOGGER = LogManager.getLogger(DOMParser.class);
 
-    public static void parseXMLFile() {
+    public static void parseXMLFile(String xmlFilePath) {
 
         try {
-            File xmlFile = new File("src/main/resources/data.xml");
+            File xmlFile = new File(xmlFilePath);
             DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
             DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
             Document doc = dBuilder.parse(xmlFile);

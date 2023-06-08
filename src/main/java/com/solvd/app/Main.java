@@ -167,7 +167,8 @@ public class Main {
         prescriptionItemService.deletePrescriptionItemByID(prescriptionItem.getPrescriptionItemID());
 
         LOGGER.info("------------------Usage of XML validator and parser---------------------");
-        XMLValidator.validateXMLFile();
-        DOMParser.parseXMLFile();
+        XMLValidator.validateXMLFile("src/main/resources/data.xml",
+                "src/main/resources/schema.xsd");
+        DOMParser.parseXMLFile("src/main/resources/data.xml");
     }
 }
