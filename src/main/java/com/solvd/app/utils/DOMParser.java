@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import java.io.File;
 
 public class DOMParser {
+
     private static final Logger LOGGER = LogManager.getLogger(DOMParser.class);
 
     public static void parseXMLFile() {
