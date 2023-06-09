@@ -1,100 +1,92 @@
 package com.solvd.app.utils;
 
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
-
-import com.solvd.app.models.Pharmacy;
-import com.solvd.app.models.Position;
-
+import com.solvd.app.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
+import org.w3c.dom.*;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import javax.xml.parsers.*;
+import java.util.function.Function;
 
 public class DOMParser {
 
     private static final Logger LOGGER = LogManager.getLogger(DOMParser.class);
 
     public static void parseXMLFile(String xmlFilePath) {
+        DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
 
         try {
-            File xmlFile = new File(xmlFilePath);
-            DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
-            DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
-            Document doc = dBuilder.parse(xmlFile);
-            doc.getDocumentElement().normalize();
+            DocumentBuilder builder = factory.newDocumentBuilder();
+            Document doc = builder.parse(xmlFilePath);
 
-            LOGGER.info("Root element: " + doc.getDocumentElement().getNodeName());
-
-            List<Pharmacy> pharmacies = parsePharmacies(doc);
-            List<Position> positions = parsePositions(doc);
-
-            LOGGER.info("Pharmacies:");
-            pharmacies.forEach(pharmacy -> LOGGER.info(pharmacy.toString()));
-
-            LOGGER.info("Positions:");
-            positions.forEach(position -> LOGGER.info(position.toString()));
-
+            parseElements(doc, "pharmacy", DOMParser::parsePharmacy);
+            parseElements(doc, "person", DOMParser::parsePerson);
+            parseElements(doc, "position", DOMParser::parsePosition);
+            parseElements(doc, "staff", DOMParser::parseStaff);
+            parseElements(doc, "customer", DOMParser::parseCustomer);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOGGER.error("Error while parsing XML file", e);
         }
     }
 
-    private static List<Pharmacy> parsePharmacies(Document doc) {
-        List<Pharmacy> pharmacies = new ArrayList<>();
-
-        NodeList nodeList = doc.getElementsByTagName("pharmacy");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                int id = Integer.parseInt(element.getAttribute("pharmacy_id"));
-                String name = element.getElementsByTagName("name").item(0).getTextContent();
-                String address = element.getElementsByTagName("address").item(0).getTextContent();
-                int phoneNumber = Integer.parseInt(
-                        element.getElementsByTagName("phone_number").item(0).getTextContent());
-
-                Pharmacy pharmacy = new Pharmacy();
-                pharmacy.setPharmacyID(id);
-                pharmacy.setName(name);
-                pharmacy.setAddress(address);
-                pharmacy.setPhoneNumber(phoneNumber);
-
-                pharmacies.add(pharmacy);
-            }
+    private static void parseElements(Document doc, String tagName, Function<Element, Object> parserFunction) {
+        NodeList nodes = doc.getElementsByTagName(tagName);
+        for (int i = 0; i < nodes.getLength(); i++) {
+            Element element = (Element) nodes.item(i);
+            Object parsedObject = parserFunction.apply(element);
+            LOGGER.info(parsedObject);
         }
-
-        return pharmacies;
     }
 
-    private static List<Position> parsePositions(Document doc) {
-        List<Position> positions = new ArrayList<>();
+    public static Person parsePerson(Element element) {
+        Person person = new Person();
+        person.setPersonID(Integer.parseInt(element.getAttribute("person_id")));
+        person.setName(element.getElementsByTagName("name").item(0).getTextContent());
+        person.setAddress(element.getElementsByTagName("address").item(0).getTextContent());
+        person.setPhoneNumber(Integer.parseInt(
+                element.getElementsByTagName("phone_number").item(0).getTextContent()));
+        person.setEmail(element.getElementsByTagName("email").item(0).getTextContent());
+        person.setGender(element.getElementsByTagName("gender").item(0).getTextContent());
 
-        NodeList nodeList = doc.getElementsByTagName("position");
-        for (int i = 0; i < nodeList.getLength(); i++) {
-            Node node = nodeList.item(i);
-            if (node.getNodeType() == Node.ELEMENT_NODE) {
-                Element element = (Element) node;
-                int id = Integer.parseInt(element.getAttribute("position_id"));
-                String name = element.getElementsByTagName("name").item(0).getTextContent();
-                double salary = Double.parseDouble(
-                        element.getElementsByTagName("salary").item(0).getTextContent());
+        return person;
+    }
 
-                Position position = new Position();
-                position.setPositionID(id);
-                position.setName(name);
-                position.setSalary(salary);
+    public static Pharmacy parsePharmacy(Element element) {
+        Pharmacy pharmacy = new Pharmacy();
+        pharmacy.setPharmacyID(Integer.parseInt(element.getAttribute("pharmacy_id")));
+        pharmacy.setName(element.getElementsByTagName("name").item(0).getTextContent());
+        pharmacy.setAddress(element.getElementsByTagName("address").item(0).getTextContent());
+        pharmacy.setPhoneNumber(Integer.parseInt(
+                element.getElementsByTagName("phone_number").item(0).getTextContent()));
 
-                positions.add(position);
-            }
-        }
+        return pharmacy;
+    }
 
-        return positions;
+    public static Position parsePosition(Element element) {
+        Position position = new Position();
+        position.setPositionID(Integer.parseInt(element.getAttribute("position_id")));
+        position.setName(element.getElementsByTagName("name").item(0).getTextContent());
+        position.setSalary(Double.parseDouble(
+                element.getElementsByTagName("salary").item(0).getTextContent()));
+
+        return position;
+    }
+
+    public static Staff parseStaff(Element element) {
+        Staff staff = new Staff();
+        staff.setStaffID(Integer.parseInt(element.getAttribute("staff_id")));
+        staff.setPerson(parsePerson((Element) element.getElementsByTagName("person").item(0)));
+        staff.setPharmacy(parsePharmacy((Element) element.getElementsByTagName("pharmacy").item(0)));
+        staff.setPosition(parsePosition((Element) element.getElementsByTagName("position").item(0)));
+
+        return staff;
+    }
+
+    public static Customer parseCustomer(Element element) {
+        Customer customer = new Customer();
+        customer.setCustomerID(Integer.parseInt(element.getAttribute("customer_id")));
+        customer.setPerson(parsePerson((Element) element.getElementsByTagName("person").item(0)));
+
+        return customer;
     }
 }

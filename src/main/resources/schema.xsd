@@ -32,7 +32,7 @@
     <xs:complexType name="staff_type">
         <xs:sequence>
             <xs:element name="pharmacy" type="pharmacy_type"/>
-            <xs:element name="people" type="person_type"/>
+            <xs:element name="person" type="person_type"/>
             <xs:element name="position" type="position_type"/>
         </xs:sequence>
         <xs:attribute name="staff_id" type="xs:int" use="required"/>
@@ -40,7 +40,7 @@
 
     <xs:complexType name="customer_type">
         <xs:sequence>
-            <xs:element name="people" type="person_type"/>
+            <xs:element name="person" type="person_type"/>
         </xs:sequence>
         <xs:attribute name="customer_id" type="xs:int" use="required"/>
     </xs:complexType>
@@ -60,7 +60,7 @@
                 <xs:element name="people">
                     <xs:complexType>
                         <xs:sequence>
-                            <xs:element name="people" type="person_type" maxOccurs="unbounded"/>
+                            <xs:element name="person" type="person_type" maxOccurs="unbounded"/>
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>
@@ -73,7 +73,7 @@
                     </xs:complexType>
                 </xs:element>
 
-                <xs:element name="staff">
+                <xs:element name="staffs">
                     <xs:complexType>
                         <xs:sequence>
                             <xs:element name="staff" type="staff_type" maxOccurs="unbounded"/>
