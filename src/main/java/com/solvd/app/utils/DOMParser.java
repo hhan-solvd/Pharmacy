@@ -4,8 +4,10 @@ import com.solvd.app.models.*;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.w3c.dom.*;
+import org.xml.sax.SAXException;
 
 import javax.xml.parsers.*;
+import java.io.IOException;
 import java.util.function.Function;
 
 public class DOMParser {
@@ -24,8 +26,12 @@ public class DOMParser {
             parseElements(doc, "position", DOMParser::parsePosition);
             parseElements(doc, "staff", DOMParser::parseStaff);
             parseElements(doc, "customer", DOMParser::parseCustomer);
-        } catch (Exception e) {
-            LOGGER.error("Error while parsing XML file", e);
+        } catch (ParserConfigurationException e) {
+            LOGGER.error("Error while configuring XML parser", e);
+        } catch (SAXException e) {
+            LOGGER.error("Error while parsing XML file: Invalid XML format", e);
+        } catch (IOException e) {
+            LOGGER.error("Error while reading XML file", e);
         }
     }
 
