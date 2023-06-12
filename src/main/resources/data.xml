@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Pharmacy>
+    <pharmacies>
+        <pharmacy pharmacy_id="1">
+            <name>CVS</name>
+            <address>123 Main St</address>
+            <phone_number>123456</phone_number>
+        </pharmacy>
+    </pharmacies>
+
+    <people>
+        <person person_id="1">
+            <name>Jack</name>
+            <address>456 Main St</address>
+            <phone_number>456789</phone_number>
+            <email>test1@example.com</email>
+            <gender>Male</gender>
+        </person>
+        <person person_id="2">
+            <name>Emma</name>
+            <address>789 Main St</address>
+            <phone_number>98765</phone_number>
+            <email>test2@example.com</email>
+            <gender>Female</gender>
+        </person>
+    </people>
+
+    <positions>
+        <position position_id="1">
+            <name>Cashier</name>
+            <salary>50000</salary>
+        </position>
+    </positions>
+
+    <staffs>
+        <staff staff_id="1">
+            <pharmacy pharmacy_id="1">
+                <name>CVS</name>
+                <address>123 Main St</address>
+                <phone_number>123456</phone_number>
+            </pharmacy>
+            <person person_id="1">
+                <name>Jack</name>
+                <address>456 Main St</address>
+                <phone_number>456789</phone_number>
+                <email>test1@example.com</email>
+                <gender>Male</gender>
+            </person>
+            <position position_id="1">
+                <name>Cashier</name>
+                <salary>50000</salary>
+            </position>
+        </staff>
+    </staffs>
+
+    <customers>
+        <customer customer_id="1">
+            <person person_id="2">
+                <name>Emma</name>
+                <address>789 Main St</address>
+                <phone_number>98765</phone_number>
+                <email>test2@example.com</email>
+                <gender>Female</gender>
+            </person>
+        </customer>
+    </customers>
+</Pharmacy>
