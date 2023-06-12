@@ -1,7 +1,6 @@
 package com.solvd.app;
 
-import com.solvd.app.jaxb.XMLMarshaller;
-import com.solvd.app.jaxb.XMLUnmarshaller;
+import com.solvd.app.jaxb.JAXBUtils;
 import com.solvd.app.models.*;
 import com.solvd.app.services.*;
 import com.solvd.app.utils.DOMParser;
@@ -175,7 +174,7 @@ public class Main {
 
         LOGGER.info("------------------Usage of JAXB---------------------");
         Pharmacy pharmacy1 = pharmacyService.getPharmacyByID(9);
-        XMLMarshaller.marshall(pharmacy1);
-        LOGGER.info(XMLUnmarshaller.unmarshall("src/main/resources/Pharmacy.xml", Pharmacy.class));
+        JAXBUtils.marshall(pharmacy1);
+        LOGGER.info(JAXBUtils.unmarshall("src/main/resources/Pharmacy.xml", Pharmacy.class));
     }
 }
