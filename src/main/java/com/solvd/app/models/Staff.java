@@ -12,7 +12,7 @@ public class Staff {
     @XmlElement(name = "person", type = Person.class)
     private Person person;
 
-    @XmlElement(name = "pharmacy", type = Pharmacy.class)
+    @XmlTransient
     private Pharmacy pharmacy;
 
     @XmlElement(name = "position", type = Position.class)
