@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<pharmacy pharmacy_id="9">
+    <name>CVS</name>
+    <address>234 Main Road</address>
+    <phone_number>234567</phone_number>
+    <staff>
+        <staff staff_id="13">
+            <person person_id="35">
+                <name>Selina</name>
+                <address>4768 Main street</address>
+                <phone_number>345543</phone_number>
+                <email>test3@example.com</email>
+                <gender>Female</gender>
+            </person>
+            <pharmacy pharmacy_id="9">
+                <name>CVS</name>
+                <address>234 Main Road</address>
+                <phone_number>234567</phone_number>
+            </pharmacy>
+            <position position_id="15">
+                <name>Pharmacist</name>
+                <salary>60000.0</salary>
+            </position>
+        </staff>
+        <staff staff_id="47">
+            <person person_id="31">
+                <name>Selina</name>
+                <address>4768 Main street</address>
+                <phone_number>345543</phone_number>
+                <email>test3@example.com</email>
+                <gender>Female</gender>
+            </person>
+            <pharmacy pharmacy_id="9">
+                <name>CVS</name>
+                <address>234 Main Road</address>
+                <phone_number>234567</phone_number>
+            </pharmacy>
+            <position position_id="17">
+                <name>Cashier</name>
+                <salary>40000.0</salary>
+            </position>
+        </staff>
+    </staff>
+</pharmacy>

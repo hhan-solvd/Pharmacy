@@ -1,9 +1,21 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "prescription_item")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PrescriptionItem {
+
+    @XmlAttribute(name = "prescription_item_id")
     private int prescriptionItemID;
+
+    @XmlElement(name = "quantity_prescribed")
     private int quantityPrescribed;
+
+    @XmlElement(name = "prescription", type = Prescription.class)
     private Prescription prescription;
+
+    @XmlElement(name = "drug", type = Drug.class)
     private Drug drug;
 
     public PrescriptionItem() {

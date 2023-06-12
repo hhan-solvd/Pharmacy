@@ -1,11 +1,26 @@
 package com.solvd.app.models;
 
+import com.solvd.app.jaxb.DateAdapter;
+
+import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.Date;
 
+@XmlRootElement(name = "prescription")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Prescription {
+
+    @XmlAttribute(name = "prescription_id")
     private int prescriptionID;
+
+    @XmlElement(name = "prescription_date")
+    @XmlJavaTypeAdapter(DateAdapter.class)
     private Date prescriptionDate;
+
+    @XmlElement(name = "doctor", type = Doctor.class)
     private Doctor doctor;
+
+    @XmlElement(name = "customer", type = Customer.class)
     private Customer customer;
 
     public Prescription() {
