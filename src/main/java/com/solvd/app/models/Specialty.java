@@ -1,7 +1,15 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "specialty")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Specialty {
+
+    @XmlAttribute(name = "specialty_id")
     private int specialtyID;
+
+    @XmlElement(name = "name")
     private String name;
 
     public Specialty() {

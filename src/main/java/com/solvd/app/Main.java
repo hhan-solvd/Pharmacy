@@ -1,5 +1,6 @@
 package com.solvd.app;
 
+import com.solvd.app.jaxb.JAXBUtils;
 import com.solvd.app.models.*;
 import com.solvd.app.services.*;
 import com.solvd.app.utils.DOMParser;
@@ -170,5 +171,10 @@ public class Main {
         XMLValidator.validateXMLFile("src/main/resources/data.xml",
                 "src/main/resources/schema.xsd");
         DOMParser.parseXMLFile("src/main/resources/data.xml");
+
+        LOGGER.info("------------------Usage of JAXB---------------------");
+        Pharmacy pharmacy1 = pharmacyService.getPharmacyByID(9);
+        JAXBUtils.marshall(pharmacy1);
+        LOGGER.info(JAXBUtils.unmarshall("src/main/resources/Pharmacy.xml", Pharmacy.class));
     }
 }

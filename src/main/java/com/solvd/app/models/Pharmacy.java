@@ -1,10 +1,27 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+import java.util.List;
+
+@XmlRootElement(name = "pharmacy")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Pharmacy {
+
+    @XmlAttribute(name = "pharmacy_id")
     private int pharmacyID;
+
+    @XmlElement(name = "name")
     private String name;
+
+    @XmlElement(name = "address")
     private String address;
+
+    @XmlElement(name = "phone_number")
     private int phoneNumber;
+
+    @XmlElementWrapper(name = "staff")
+    @XmlElement(name = "staff", type = Staff.class)
+    private List<Staff> staff;
 
     public Pharmacy() {
     }
@@ -47,6 +64,14 @@ public class Pharmacy {
         this.phoneNumber = phoneNumber;
     }
 
+    public List<Staff> getStaff() {
+        return staff;
+    }
+
+    public void setStaff(List<Staff> staff) {
+        this.staff = staff;
+    }
+
     @Override
     public String toString() {
         return "Pharmacy{" +
@@ -54,6 +79,7 @@ public class Pharmacy {
                 ", name='" + name + '\'' +
                 ", address='" + address + '\'' +
                 ", phoneNumber=" + phoneNumber +
+                ", staff=" + staff +
                 '}';
     }
 }

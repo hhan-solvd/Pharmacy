@@ -1,7 +1,9 @@
 package com.solvd.app.services;
 
 import com.solvd.app.dao.PharmacyDAO;
+import com.solvd.app.dao.StaffDAO;
 import com.solvd.app.models.Pharmacy;
+import com.solvd.app.models.Staff;
 
 import java.util.List;
 
@@ -13,7 +15,10 @@ public class PharmacyService {
     }
 
     public Pharmacy getPharmacyByID(int id) {
-        return pharmacyDAO.getEntityByID(id);
+        Pharmacy pharmacy = pharmacyDAO.getEntityByID(id);
+        List<Staff> staff = new StaffDAO().getStaffByPharmacy(pharmacy);
+        pharmacy.setStaff(staff);
+        return pharmacy;
     }
 
     public void updatePharmacy(Pharmacy pharmacy) {

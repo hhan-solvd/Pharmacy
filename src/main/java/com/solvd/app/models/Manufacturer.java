@@ -1,7 +1,15 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "manufacturer")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Manufacturer {
+
+    @XmlAttribute(name = "manufacturer_id")
     private int manufacturerID;
+
+    @XmlElement(name = "name")
     private String name;
 
     public Manufacturer() {

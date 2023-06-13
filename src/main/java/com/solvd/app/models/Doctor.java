@@ -1,9 +1,21 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "doctor")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Doctor {
+
+    @XmlAttribute(name = "doctor_id")
     private int doctorID;
+
+    @XmlElement(name = "person", type = Person.class)
     private Person person;
+
+    @XmlElement(name = "specialty", type = Specialty.class)
     private Specialty specialty;
+
+    @XmlElement(name = "years_of_experience")
     private int yearsOfExperience;
 
     public Doctor() {

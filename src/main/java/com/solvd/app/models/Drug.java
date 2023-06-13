@@ -1,11 +1,27 @@
 package com.solvd.app.models;
 
+import javax.xml.bind.annotation.*;
+
+@XmlRootElement(name = "drug")
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Drug {
+
+    @XmlAttribute(name = "drug_id")
     private int drugID;
+
+    @XmlElement(name = "name")
     private String name;
+
+    @XmlElement(name = "supplier", type = Supplier.class)
     private Supplier supplier;
+
+    @XmlElement(name = "manufacturer", type = Manufacturer.class)
     private Manufacturer manufacturer;
+
+    @XmlElement(name = "drug_category", type = DrugCategory.class)
     private DrugCategory drugCategory;
+
+    @XmlElement(name = "price")
     private double price;
 
     public Drug() {
