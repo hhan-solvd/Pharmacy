@@ -8,19 +8,18 @@ import java.io.IOException;
 
 public class JSONUtils {
 
-    public static <T> void writeJSON(T object) {
+    public static <T> void writeJSON(T object, String jsonFilePath) {
         ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
         try {
             String className = object.getClass().getSimpleName();
-            objectMapper.writeValue(new File(System.getProperty("user.dir") +
-                    "/src/main/resources/json/" + className + ".json"), object);
+            objectMapper.writeValue(new File(jsonFilePath + className + ".json"), object);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
     }
 
     public static <T> T readJSON(String jsonFilePath, Class<T> targetType) {
-        ObjectMapper objectMapper = new ObjectMapper().enable(SerializationFeature.INDENT_OUTPUT);
+        ObjectMapper objectMapper = new ObjectMapper();
         try {
             File jsonFile = new File(jsonFilePath);
             return objectMapper.readValue(jsonFile, targetType);

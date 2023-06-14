@@ -175,12 +175,12 @@ public class Main {
 
         LOGGER.info("------------------Usage of JAXB---------------------");
         Pharmacy pharmacy1 = pharmacyService.getPharmacyByID(9);
-        JAXBUtils.marshall(pharmacy1);
+        JAXBUtils.marshall(pharmacy1, "src/main/resources/xml/");
         LOGGER.info(JAXBUtils.unmarshall("src/main/resources/xml/Pharmacy.xml", Pharmacy.class));
 
         LOGGER.info("------------------Usage of JSON---------------------");
         Prescription prescription1 = prescriptionService.getPrescriptionByID(12);
-        JSONUtils.writeJSON(prescription1);
+        JSONUtils.writeJSON(prescription1, "src/main/resources/json/");
         LOGGER.info(JSONUtils.readJSON("src/main/resources/json/Prescription.json", Prescription.class));
     }
 }
