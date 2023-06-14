@@ -1,8 +1,9 @@
 package com.solvd.app.services;
 
 import com.solvd.app.dao.PrescriptionDAO;
-import com.solvd.app.models.Doctor;
-import com.solvd.app.models.Prescription;
+import com.solvd.app.dao.PrescriptionItemDAO;
+import com.solvd.app.dao.StaffDAO;
+import com.solvd.app.models.*;
 
 import java.util.List;
 
@@ -14,7 +15,10 @@ public class PrescriptionService {
     }
 
     public Prescription getPrescriptionByID(int id) {
-        return prescriptionDAO.getEntityByID(id);
+        Prescription prescription = prescriptionDAO.getEntityByID(id);
+        List<PrescriptionItem> prescriptionItems = new PrescriptionItemDAO().getItemsByPrescription(prescription);
+        prescription.setPrescriptionItems(prescriptionItems);
+        return prescription;
     }
 
     public void updatePrescription(Prescription prescription) {

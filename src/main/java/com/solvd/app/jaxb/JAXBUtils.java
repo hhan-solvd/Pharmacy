@@ -10,7 +10,7 @@ import java.io.File;
 
 public class JAXBUtils {
 
-    public static <T> void marshall(T parameter) {
+    public static <T> void marshall(T parameter, String xmlFilePath) {
         try {
             JAXBContext context = JAXBContext.newInstance(Customer.class, Doctor.class, Drug.class,
                     DrugCategory.class, Inventory.class, Manufacturer.class, Person.class, Pharmacy.class,
@@ -19,8 +19,7 @@ public class JAXBUtils {
             Marshaller marshaller = context.createMarshaller();
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             String className = parameter.getClass().getSimpleName();
-            marshaller.marshal(parameter, new File(System.getProperty("user.dir") +
-                    "/src/main/resources/" + className + ".xml"));
+            marshaller.marshal(parameter, new File(xmlFilePath + className + ".xml"));
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }

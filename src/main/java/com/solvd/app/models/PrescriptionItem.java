@@ -1,20 +1,31 @@
 package com.solvd.app.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import javax.xml.bind.annotation.*;
 
+@JsonRootName("prescription_item")
+@JsonPropertyOrder({"prescription_item_id", "drug", "quantity_prescribed"})
 @XmlRootElement(name = "prescription_item")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PrescriptionItem {
 
+    @JsonProperty("prescription_item_id")
     @XmlAttribute(name = "prescription_item_id")
     private int prescriptionItemID;
 
+    @JsonProperty("quantity_prescribed")
     @XmlElement(name = "quantity_prescribed")
     private int quantityPrescribed;
 
-    @XmlElement(name = "prescription", type = Prescription.class)
+    @JsonIgnore
+    @XmlTransient
     private Prescription prescription;
 
+    @JsonProperty("drug")
     @XmlElement(name = "drug", type = Drug.class)
     private Drug drug;
 

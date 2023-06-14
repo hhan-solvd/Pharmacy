@@ -1,0 +1,54 @@
+{
+  "prescription_id" : 12,
+  "prescription_date" : "2023-06-05",
+  "doctor" : {
+    "doctor_id" : 12,
+    "person" : {
+      "person_id" : 31,
+      "name" : "Selina",
+      "address" : "4768 Main street",
+      "phone_number" : 345543,
+      "email" : "test3@example.com",
+      "gender" : "Female"
+    },
+    "specialty" : {
+      "specialty_id" : 17,
+      "name" : "Radiology"
+    },
+    "years_of_experience" : 16
+  },
+  "customer" : {
+    "customer_id" : 9,
+    "person" : {
+      "person_id" : 28,
+      "name" : "Emma",
+      "address" : "89 Main street",
+      "phone_number" : 908768,
+      "email" : "test2@example.com",
+      "gender" : "Female"
+    }
+  },
+  "prescription_items" : [ {
+    "prescription_item_id" : 10,
+    "drug" : {
+      "drug_id" : 7,
+      "name" : "Penicillin",
+      "supplier" : {
+        "supplier_id" : 11,
+        "name" : "McKesson",
+        "address" : "806 Main Road",
+        "phone_number" : 675432
+      },
+      "manufacturer" : {
+        "manufacturer_id" : 16,
+        "name" : "Johnson & Johnson"
+      },
+      "drug_category" : {
+        "category_id" : 9,
+        "name" : "antibiotic"
+      },
+      "price" : 18.0
+    },
+    "quantity_prescribed" : 10
+  } ]
+}
