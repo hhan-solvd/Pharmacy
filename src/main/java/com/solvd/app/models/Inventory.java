@@ -1,21 +1,28 @@
 package com.solvd.app.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
 
 import javax.xml.bind.annotation.*;
 
+@JsonRootName("inventory")
 @XmlRootElement(name = "inventory")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Inventory {
 
+    @JsonProperty("inventory_id")
     @XmlAttribute(name = "inventory_id")
     private int inventoryID;
 
+    @JsonProperty("quantity")
     @XmlElement(name = "quantity")
     private int quantity;
 
+    @JsonProperty("drug")
     @XmlElement(name = "drug", type = Drug.class)
     private Drug drug;
 
+    @JsonProperty("pharmacy")
     @XmlElement(name = "pharmacy", type = Pharmacy.class)
     private Pharmacy pharmacy;
 

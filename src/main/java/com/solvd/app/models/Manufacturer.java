@@ -1,14 +1,20 @@
 package com.solvd.app.models;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonRootName;
+
 import javax.xml.bind.annotation.*;
 
+@JsonRootName("manufacturer")
 @XmlRootElement(name = "manufacturer")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Manufacturer {
 
+    @JsonProperty("manufacturer_id")
     @XmlAttribute(name = "manufacturer_id")
     private int manufacturerID;
 
+    @JsonProperty("name")
     @XmlElement(name = "name")
     private String name;
 

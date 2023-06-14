@@ -20,7 +20,7 @@ public class JAXBUtils {
             marshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
             String className = parameter.getClass().getSimpleName();
             marshaller.marshal(parameter, new File(System.getProperty("user.dir") +
-                    "/src/main/resources/" + className + ".xml"));
+                    "/src/main/resources/xml/" + className + ".xml"));
         } catch (JAXBException e) {
             throw new RuntimeException(e);
         }
