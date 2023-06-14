@@ -1,6 +1,6 @@
 {
-  "prescriptionDate" : "2023-06-05",
   "prescription_id" : 12,
+  "prescription_date" : "2023-06-05",
   "doctor" : {
     "doctor_id" : 12,
     "person" : {

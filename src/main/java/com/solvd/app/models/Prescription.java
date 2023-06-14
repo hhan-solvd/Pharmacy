@@ -19,6 +19,7 @@ public class Prescription {
     @XmlAttribute(name = "prescription_id")
     private int prescriptionID;
 
+    @JsonProperty("prescription_date")
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     @XmlElement(name = "prescription_date")
     @XmlJavaTypeAdapter(DateAdapter.class)
