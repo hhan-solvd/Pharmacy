@@ -33,7 +33,7 @@ public class Prescription {
     @XmlElement(name = "customer", type = Customer.class)
     private Customer customer;
 
-    @JsonProperty("prescriptionItems")
+    @JsonProperty("prescription_items")
     @XmlElementWrapper(name = "prescription_items")
     @XmlElement(name = "prescription_items", type = PrescriptionItem.class)
     private List<PrescriptionItem> prescriptionItems;

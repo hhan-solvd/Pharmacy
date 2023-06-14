@@ -28,7 +28,7 @@
       "gender" : "Female"
     }
   },
-  "prescriptionItems" : [ {
+  "prescription_items" : [ {
     "prescription_item_id" : 10,
     "drug" : {
       "drug_id" : 7,
