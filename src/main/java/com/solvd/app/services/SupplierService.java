@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.SupplierDAO;
 import com.solvd.app.interfaces.ISupplierDAO;
 import com.solvd.app.mybatis.MyBatisSupplierDAO;
@@ -11,12 +12,12 @@ public class SupplierService {
 
     private ISupplierDAO supplierDAO;
 
-    public SupplierService() {
-        this.supplierDAO = new SupplierDAO();
-    }
-
-    public SupplierService(MyBatisSupplierDAO myBatisSupplierDAO) {
-        this.supplierDAO = myBatisSupplierDAO;
+    public SupplierService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.supplierDAO = new SupplierDAO();
+            case MYBATIS -> this.supplierDAO = new MyBatisSupplierDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createSupplier(Supplier supplier) {

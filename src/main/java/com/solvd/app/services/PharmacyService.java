@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.PharmacyDAO;
 import com.solvd.app.jdbc.StaffDAO;
 import com.solvd.app.interfaces.IPharmacyDAO;
@@ -16,14 +17,18 @@ public class PharmacyService {
     private IPharmacyDAO pharmacyDAO;
     private IStaffDAO staffDAO;
 
-    public PharmacyService() {
-        this.pharmacyDAO = new PharmacyDAO();
-        this.staffDAO = new StaffDAO();
-    }
-
-    public PharmacyService(MyBatisPharmacyDAO myBatisPharmacyDAO, MyBatisStaffDAO myBatisStaffDAO) {
-        this.pharmacyDAO = myBatisPharmacyDAO;
-        this.staffDAO = myBatisStaffDAO;
+    public PharmacyService(DAOType type) {
+        switch (type) {
+            case JDBC -> {
+                this.pharmacyDAO = new PharmacyDAO();
+                this.staffDAO = new StaffDAO();
+            }
+            case MYBATIS -> {
+                this.pharmacyDAO = new MyBatisPharmacyDAO();
+                this.staffDAO = new MyBatisStaffDAO();
+            }
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createPharmacy(Pharmacy pharmacy) {

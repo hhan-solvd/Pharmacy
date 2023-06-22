@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.StaffDAO;
 import com.solvd.app.interfaces.IStaffDAO;
 import com.solvd.app.mybatis.MyBatisStaffDAO;
@@ -12,12 +13,12 @@ public class StaffService {
 
     private IStaffDAO staffDAO;
 
-    public StaffService() {
-        this.staffDAO = new StaffDAO();
-    }
-
-    public StaffService(MyBatisStaffDAO myBatisStaffDAO) {
-        this.staffDAO = myBatisStaffDAO;
+    public StaffService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.staffDAO = new StaffDAO();
+            case MYBATIS -> this.staffDAO = new MyBatisStaffDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createStaff(Staff staff) {

@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.InventoryDAO;
 import com.solvd.app.interfaces.IInventoryDAO;
 import com.solvd.app.mybatis.MyBatisInventoryDAO;
@@ -11,12 +12,12 @@ public class InventoryService {
 
     private IInventoryDAO inventoryDAO;
 
-    public InventoryService() {
-        this.inventoryDAO = new InventoryDAO();
-    }
-
-    public InventoryService(MyBatisInventoryDAO myBatisInventoryDAO) {
-        this.inventoryDAO = myBatisInventoryDAO;
+    public InventoryService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.inventoryDAO = new InventoryDAO();
+            case MYBATIS -> this.inventoryDAO = new MyBatisInventoryDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createInventory(Inventory inventory) {

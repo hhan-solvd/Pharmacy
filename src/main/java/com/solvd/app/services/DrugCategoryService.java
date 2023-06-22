@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.DrugCategoryDAO;
 import com.solvd.app.interfaces.IDrugCategoryDAO;
 import com.solvd.app.mybatis.MyBatisDrugCategoryDAO;
@@ -11,12 +12,12 @@ public class DrugCategoryService {
 
     private IDrugCategoryDAO drugCategoryDAO;
 
-    public DrugCategoryService() {
-        this.drugCategoryDAO = new DrugCategoryDAO();
-    }
-
-    public DrugCategoryService(MyBatisDrugCategoryDAO myBatisDrugCategoryDAO) {
-        this.drugCategoryDAO = myBatisDrugCategoryDAO;
+    public DrugCategoryService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.drugCategoryDAO = new DrugCategoryDAO();
+            case MYBATIS -> this.drugCategoryDAO = new MyBatisDrugCategoryDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createDrugCategory(DrugCategory drugCategory) {

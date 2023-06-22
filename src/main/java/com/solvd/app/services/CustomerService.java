@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.interfaces.ICustomerDAO;
 import com.solvd.app.jdbc.CustomerDAO;
 import com.solvd.app.models.Customer;
@@ -11,12 +12,12 @@ public class CustomerService {
 
     private ICustomerDAO customerDAO;
 
-    public CustomerService() {
-        this.customerDAO = new CustomerDAO();
-    }
-
-    public CustomerService(MyBatisCustomerDAO myBatisCustomerDAO) {
-        this.customerDAO = myBatisCustomerDAO;
+    public CustomerService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.customerDAO = new CustomerDAO();
+            case MYBATIS -> this.customerDAO = new MyBatisCustomerDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createCustomer(Customer customer) {

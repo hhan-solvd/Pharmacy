@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.interfaces.IDoctorDAO;
 import com.solvd.app.jdbc.DoctorDAO;
 import com.solvd.app.models.Doctor;
@@ -11,12 +12,12 @@ public class DoctorService {
 
     private IDoctorDAO doctorDAO;
 
-    public DoctorService() {
-        this.doctorDAO = new DoctorDAO();
-    }
-
-    public DoctorService(MyBatisDoctorDAO myBatisDoctorDAO) {
-        this.doctorDAO = myBatisDoctorDAO;
+    public DoctorService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.doctorDAO = new DoctorDAO();
+            case MYBATIS -> this.doctorDAO = new MyBatisDoctorDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createDoctor(Doctor doctor) {
@@ -43,3 +44,4 @@ public class DoctorService {
         return doctorDAO.getDoctorsBySpecialty(specialty);
     }
 }
+

@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.PersonDAO;
 import com.solvd.app.interfaces.IPersonDAO;
 import com.solvd.app.mybatis.MyBatisPersonDAO;
@@ -11,12 +12,12 @@ public class PersonService {
 
     private IPersonDAO personDAO;
 
-    public PersonService() {
-        this.personDAO = new PersonDAO();
-    }
-
-    public PersonService(MyBatisPersonDAO myBatisPersonDAO) {
-        this.personDAO = myBatisPersonDAO;
+    public PersonService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.personDAO = new PersonDAO();
+            case MYBATIS -> this.personDAO = new MyBatisPersonDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createPerson(Person person) {

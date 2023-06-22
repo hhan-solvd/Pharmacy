@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.interfaces.IPrescriptionItemDAO;
 import com.solvd.app.jdbc.PrescriptionItemDAO;
 import com.solvd.app.models.Prescription;
@@ -12,12 +13,12 @@ public class PrescriptionItemService {
 
     private IPrescriptionItemDAO prescriptionItemDAO;
 
-    public PrescriptionItemService() {
-        this.prescriptionItemDAO = new PrescriptionItemDAO();
-    }
-
-    public PrescriptionItemService(MyBatisPrescriptionItemDAO myBatisPrescriptionItemDAO) {
-        this.prescriptionItemDAO = myBatisPrescriptionItemDAO;
+    public PrescriptionItemService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.prescriptionItemDAO = new PrescriptionItemDAO();
+            case MYBATIS -> this.prescriptionItemDAO = new MyBatisPrescriptionItemDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createPrescriptionItem(PrescriptionItem prescriptionItem) {

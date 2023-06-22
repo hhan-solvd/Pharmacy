@@ -1,5 +1,6 @@
 package com.solvd.app.services;
 
+import com.solvd.app.enums.DAOType;
 import com.solvd.app.jdbc.DrugDAO;
 import com.solvd.app.interfaces.IDrugDAO;
 import com.solvd.app.mybatis.MyBatisDrugDAO;
@@ -12,12 +13,12 @@ public class DrugService {
 
     private IDrugDAO drugDAO;
 
-    public DrugService() {
-        this.drugDAO = new DrugDAO();
-    }
-
-    public DrugService(MyBatisDrugDAO myBatisDrugDAO) {
-        this.drugDAO = myBatisDrugDAO;
+    public DrugService(DAOType type) {
+        switch (type) {
+            case JDBC -> this.drugDAO = new DrugDAO();
+            case MYBATIS -> this.drugDAO = new MyBatisDrugDAO();
+            default -> throw new IllegalArgumentException("Invalid DAO type");
+        }
     }
 
     public void createDrug(Drug drug) {
