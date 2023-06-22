@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IInventoryDAO;
 import com.solvd.app.models.Inventory;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,12 +10,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class InventoryDAO implements IBaseDAO<Inventory> {
+public class InventoryDAO implements IInventoryDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(InventoryDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private DrugDAO drugDAO = new DrugDAO();
     private PharmacyDAO pharmacyDAO = new PharmacyDAO();
 
+    @Override
     public void createEntity(Inventory inventory) {
         Connection connection = connectionPool.getConnection();
 
@@ -47,6 +49,7 @@ public class InventoryDAO implements IBaseDAO<Inventory> {
         }
     }
 
+    @Override
     public Inventory getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Inventory inventory = new Inventory();
@@ -72,6 +75,7 @@ public class InventoryDAO implements IBaseDAO<Inventory> {
         return inventory;
     }
 
+    @Override
     public void updateEntity(Inventory inventory) {
         Connection connection = connectionPool.getConnection();
 
@@ -97,6 +101,7 @@ public class InventoryDAO implements IBaseDAO<Inventory> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -119,6 +124,7 @@ public class InventoryDAO implements IBaseDAO<Inventory> {
         }
     }
 
+    @Override
     public List<Inventory> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Inventory> inventoryList = new ArrayList<>();
@@ -144,5 +150,28 @@ public class InventoryDAO implements IBaseDAO<Inventory> {
         }
 
         return inventoryList;
+    }
+
+    @Override
+    public int getInventoryQuantityByID(int id) {
+        Connection connection = connectionPool.getConnection();
+        int quantity = 0;
+
+        try {
+            String sql = "SELECT quantity FROM inventory WHERE inventory_id = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setInt(1, id);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                quantity = resultSet.getInt("quantity");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get quantity of inventory: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return quantity;
     }
 }

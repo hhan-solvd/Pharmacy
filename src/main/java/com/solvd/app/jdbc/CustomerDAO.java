@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.ICustomerDAO;
 import com.solvd.app.models.Customer;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,11 +10,13 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CustomerDAO implements IBaseDAO<Customer> {
+public class CustomerDAO implements ICustomerDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(CustomerDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private PersonDAO personDAO = new PersonDAO();
 
+    @Override
     public void createEntity(Customer customer) {
         Connection connection = connectionPool.getConnection();
 
@@ -44,6 +46,7 @@ public class CustomerDAO implements IBaseDAO<Customer> {
         }
     }
 
+    @Override
     public Customer getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Customer customer = new Customer();
@@ -67,6 +70,7 @@ public class CustomerDAO implements IBaseDAO<Customer> {
         return customer;
     }
 
+    @Override
     public void updateEntity(Customer customer) {
         Connection connection = connectionPool.getConnection();
 
@@ -90,6 +94,7 @@ public class CustomerDAO implements IBaseDAO<Customer> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -112,6 +117,7 @@ public class CustomerDAO implements IBaseDAO<Customer> {
         }
     }
 
+    @Override
     public List<Customer> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Customer> customerList = new ArrayList<>();
@@ -130,6 +136,33 @@ public class CustomerDAO implements IBaseDAO<Customer> {
             }
         } catch (SQLException e) {
             LOGGER.error("Error when trying to get all customers: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return customerList;
+    }
+
+    @Override
+    public List<Customer> getCustomersByName(String name) {
+        Connection connection = connectionPool.getConnection();
+        List<Customer> customerList = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM customers c INNER JOIN people p ON c.person_id = p.person_id WHERE p.name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Customer customer = new Customer();
+                customer.setCustomerID(resultSet.getInt("customer_id"));
+                customer.setPerson(personDAO.getEntityByID(resultSet.getInt("person_id")));
+
+                customerList.add(customer);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get customers by name: " + e.getMessage());
         } finally {
             connectionPool.releaseConnection(connection);
         }

@@ -1,13 +1,24 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.PrescriptionItemDAO;
+import com.solvd.app.interfaces.IPrescriptionItemDAO;
+import com.solvd.app.jdbc.PrescriptionItemDAO;
 import com.solvd.app.models.Prescription;
 import com.solvd.app.models.PrescriptionItem;
+import com.solvd.app.mybatis.MyBatisPrescriptionItemDAO;
 
 import java.util.List;
 
 public class PrescriptionItemService {
-    private PrescriptionItemDAO prescriptionItemDAO = new PrescriptionItemDAO();
+
+    private IPrescriptionItemDAO prescriptionItemDAO;
+
+    public PrescriptionItemService() {
+        this.prescriptionItemDAO = new PrescriptionItemDAO();
+    }
+
+    public PrescriptionItemService(MyBatisPrescriptionItemDAO myBatisPrescriptionItemDAO) {
+        this.prescriptionItemDAO = myBatisPrescriptionItemDAO;
+    }
 
     public void createPrescriptionItem(PrescriptionItem prescriptionItem) {
         prescriptionItemDAO.createEntity(prescriptionItem);

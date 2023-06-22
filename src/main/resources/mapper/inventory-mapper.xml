@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IInventoryDAO">
+    <resultMap id="inventoryResultMap" type="Inventory" autoMapping="false">
+        <id property="inventoryID" column="inventory_id"/>
+        <result property="quantity" column="quantity"/>
+        <association property="drug" column="drug_id"
+                     javaType="Drug" select="com.solvd.app.interfaces.IDrugDAO.getEntityByID"/>
+        <association property="pharmacy" column="pharmacy_id"
+                     javaType="Pharmacy" select="com.solvd.app.interfaces.IPharmacyDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="inventoryID">
+        INSERT INTO inventory (quantity, drug_id, pharmacy_id)
+        VALUES (#{quantity}, #{drug.drugID}, #{pharmacy.pharmacyID});
+    </insert>
+
+    <update id="updateEntity" parameterType="Inventory">
+        UPDATE inventory
+        SET quantity = #{quantity}, drug_id = #{drug.drugID}, pharmacy_id = #{pharmacy.pharmacyID}
+        WHERE inventory_id = #{inventoryID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM inventory WHERE inventory_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="inventoryResultMap">
+        SELECT * FROM inventory WHERE inventory_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="inventoryResultMap">
+        SELECT * FROM inventory;
+    </select>
+
+    <select id="getInventoryQuantityByID" resultType="int">
+        SELECT quantity FROM inventory WHERE inventory_id=#{id};
+    </select>
+</mapper>

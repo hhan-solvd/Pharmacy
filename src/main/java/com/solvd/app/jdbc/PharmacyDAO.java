@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IPharmacyDAO;
 import com.solvd.app.models.Pharmacy;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PharmacyDAO implements IBaseDAO<Pharmacy> {
+public class PharmacyDAO implements IPharmacyDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(PharmacyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Pharmacy pharmacy) {
         Connection connection = connectionPool.getConnection();
 
@@ -45,6 +47,7 @@ public class PharmacyDAO implements IBaseDAO<Pharmacy> {
         }
     }
 
+    @Override
     public Pharmacy getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Pharmacy pharmacy = new Pharmacy();
@@ -70,6 +73,7 @@ public class PharmacyDAO implements IBaseDAO<Pharmacy> {
         return pharmacy;
     }
 
+    @Override
     public void updateEntity(Pharmacy pharmacy) {
         Connection connection = connectionPool.getConnection();
 
@@ -95,6 +99,7 @@ public class PharmacyDAO implements IBaseDAO<Pharmacy> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -117,6 +122,7 @@ public class PharmacyDAO implements IBaseDAO<Pharmacy> {
         }
     }
 
+    @Override
     public List<Pharmacy> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Pharmacy> pharmacyList = new ArrayList<>();
@@ -142,5 +148,31 @@ public class PharmacyDAO implements IBaseDAO<Pharmacy> {
         }
 
         return pharmacyList;
+    }
+
+    @Override
+    public Pharmacy getPharmacyByAddress(String address) {
+        Connection connection = connectionPool.getConnection();
+        Pharmacy pharmacy = new Pharmacy();
+
+        try {
+            String sql = "SELECT * FROM pharmacies WHERE address = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, address);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                pharmacy.setPharmacyID(resultSet.getInt("pharmacy_id"));
+                pharmacy.setName(resultSet.getString("name"));
+                pharmacy.setAddress(resultSet.getString("address"));
+                pharmacy.setPhoneNumber(resultSet.getInt("phone_number"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get pharmacy by address: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return pharmacy;
     }
 }

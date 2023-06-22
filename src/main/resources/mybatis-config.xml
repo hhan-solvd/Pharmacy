@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties"/>
+    <typeAliases>
+        <typeAlias alias="Customer" type="com.solvd.app.models.Customer"/>
+        <typeAlias alias="Doctor" type="com.solvd.app.models.Doctor"/>
+        <typeAlias alias="Drug" type="com.solvd.app.models.Drug"/>
+        <typeAlias alias="DrugCategory" type="com.solvd.app.models.DrugCategory"/>
+        <typeAlias alias="Inventory" type="com.solvd.app.models.Inventory"/>
+        <typeAlias alias="Manufacturer" type="com.solvd.app.models.Manufacturer"/>
+        <typeAlias alias="Person" type="com.solvd.app.models.Person"/>
+        <typeAlias alias="Pharmacy" type="com.solvd.app.models.Pharmacy"/>
+        <typeAlias alias="Position" type="com.solvd.app.models.Position"/>
+        <typeAlias alias="Prescription" type="com.solvd.app.models.Prescription"/>
+        <typeAlias alias="PrescriptionItem" type="com.solvd.app.models.PrescriptionItem"/>
+        <typeAlias alias="Specialty" type="com.solvd.app.models.Specialty"/>
+        <typeAlias alias="Staff" type="com.solvd.app.models.Staff"/>
+        <typeAlias alias="Supplier" type="com.solvd.app.models.Supplier"/>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${db.DRIVER}"/>
+                <property name="url" value="${db.URL}"/>
+                <property name="username" value="${db.USER}"/>
+                <property name="password" value="${db.PASSWORD}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <mapper resource="mapper/customer-mapper.xml"/>
+        <mapper resource="mapper/doctor-mapper.xml"/>
+        <mapper resource="mapper/drug-mapper.xml"/>
+        <mapper resource="mapper/drug-category-mapper.xml"/>
+        <mapper resource="mapper/inventory-mapper.xml"/>
+        <mapper resource="mapper/manufacturer-mapper.xml"/>
+        <mapper resource="mapper/person-mapper.xml"/>
+        <mapper resource="mapper/pharmacy-mapper.xml"/>
+        <mapper resource="mapper/position-mapper.xml"/>
+        <mapper resource="mapper/prescription-mapper.xml"/>
+        <mapper resource="mapper/prescription-item-mapper.xml"/>
+        <mapper resource="mapper/specialty-mapper.xml"/>
+        <mapper resource="mapper/staff-mapper.xml"/>
+        <mapper resource="mapper/supplier-mapper.xml"/>
+    </mappers>
+</configuration>

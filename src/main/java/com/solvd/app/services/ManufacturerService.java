@@ -1,12 +1,23 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.ManufacturerDAO;
+import com.solvd.app.jdbc.ManufacturerDAO;
+import com.solvd.app.interfaces.IManufacturerDAO;
+import com.solvd.app.mybatis.MyBatisManufacturerDAO;
 import com.solvd.app.models.Manufacturer;
 
 import java.util.List;
 
 public class ManufacturerService {
-    private ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
+
+    private IManufacturerDAO manufacturerDAO;
+
+    public ManufacturerService() {
+        this.manufacturerDAO = new ManufacturerDAO();
+    }
+
+    public ManufacturerService(MyBatisManufacturerDAO myBatisManufacturerDAO) {
+        this.manufacturerDAO = myBatisManufacturerDAO;
+    }
 
     public void createManufacturer(Manufacturer manufacturer) {
         manufacturerDAO.createEntity(manufacturer);
@@ -26,5 +37,9 @@ public class ManufacturerService {
 
     public List<Manufacturer> getAllManufacturers() {
         return manufacturerDAO.getAll();
+    }
+
+    public List<Manufacturer> getManufacturersByName(String name) {
+        return manufacturerDAO.getManufacturersByName(name);
     }
 }

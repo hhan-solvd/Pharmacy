@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IPrescriptionItemDAO">
+    <resultMap id="prescriptionItemResultMap" type="PrescriptionItem" autoMapping="false">
+        <id property="prescriptionItemID" column="prescription_item_id"/>
+        <result property="quantityPrescribed" column="quantity_prescribed"/>
+        <association property="prescription" column="prescription_id"
+                     javaType="Prescription" select="com.solvd.app.interfaces.IPrescriptionDAO.getEntityByID"/>
+        <association property="drug" column="drug_id"
+                     javaType="Drug" select="com.solvd.app.interfaces.IDrugDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" parameterType="PrescriptionItem">
+        INSERT INTO prescription_items (quantity_prescribed, prescription_id, drug_id)
+        VALUES (#{quantityPrescribed}, #{prescription.prescriptionID}, #{drug.drugID});
+    </insert>
+
+    <update id="updateEntity" parameterType="PrescriptionItem">
+        UPDATE prescription_items
+        SET quantity_prescribed = #{quantityPrescribed}, prescription_id = #{prescription.prescriptionID},
+        drug_id = #{drug.drugID}
+        WHERE prescription_item_id = #{prescriptionItemID};
+    </update>
+
+    <delete id="deleteEntityByID">
+        DELETE FROM prescription_items WHERE prescription_item_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" resultMap="prescriptionItemResultMap">
+        SELECT * FROM prescription_items WHERE prescription_item_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="prescriptionItemResultMap">
+        SELECT * FROM prescription_items;
+    </select>
+
+    <select id="getItemsByPrescription" resultMap="prescriptionItemResultMap">
+        SELECT * FROM prescription_items WHERE prescription_id = #{prescriptionID};
+    </select>
+</mapper>

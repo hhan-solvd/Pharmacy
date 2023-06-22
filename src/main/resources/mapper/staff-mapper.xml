@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IStaffDAO">
+    <resultMap id="staffResultMap" type="Staff" autoMapping="false">
+        <id property="staffID" column="staff_id"/>
+        <association property="person" column="person_id"
+                     javaType="Person" select="com.solvd.app.interfaces.IPersonDAO.getEntityByID"/>
+        <association property="pharmacy" column="pharmacy_id"
+                     javaType="Pharmacy" select="com.solvd.app.interfaces.IPharmacyDAO.getEntityByID"/>
+        <association property="position" column="position_id"
+                     javaType="Position" select="com.solvd.app.interfaces.IPositionDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="staff_id">
+        INSERT INTO staff (person_id, pharmacy_id, position_id)
+        VALUES (#{person.personID}, #{pharmacy.pharmacyID}, #{position.positionID});
+    </insert>
+
+    <update id="updateEntity" parameterType="Staff">
+        UPDATE staff
+        SET person_id = #{person.personID}, pharmacy_id = #{pharmacy.pharmacyID}, position_id = #{position.positionID}
+        WHERE staff_id = #{staffID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM staff WHERE staff_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="staffResultMap">
+        SELECT * FROM staff WHERE staff_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="staffResultMap">
+        SELECT * FROM staff;
+    </select>
+
+    <select id="getStaffByPharmacy" parameterType="Pharmacy" resultMap="staffResultMap">
+        SELECT * FROM staff WHERE pharmacy_id = #{pharmacyID};
+    </select>
+</mapper>

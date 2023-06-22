@@ -1,13 +1,24 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.DrugDAO;
+import com.solvd.app.jdbc.DrugDAO;
+import com.solvd.app.interfaces.IDrugDAO;
+import com.solvd.app.mybatis.MyBatisDrugDAO;
 import com.solvd.app.models.Drug;
 import com.solvd.app.models.Manufacturer;
 
 import java.util.List;
 
 public class DrugService {
-    private DrugDAO drugDAO = new DrugDAO();
+
+    private IDrugDAO drugDAO;
+
+    public DrugService() {
+        this.drugDAO = new DrugDAO();
+    }
+
+    public DrugService(MyBatisDrugDAO myBatisDrugDAO) {
+        this.drugDAO = myBatisDrugDAO;
+    }
 
     public void createDrug(Drug drug) {
         drugDAO.createEntity(drug);

@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IDrugCategoryDAO">
+    <resultMap id="drugCategoryResultMap" type="DrugCategory" autoMapping="false">
+        <id property="categoryID" column="category_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="category_id">
+        INSERT INTO drug_categories (name)
+        VALUES (#{name});
+    </insert>
+
+    <update id="updateEntity" parameterType="DrugCategory">
+        UPDATE drug_categories
+        SET name = #{name}
+        WHERE category_id = #{categoryID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM drug_categories WHERE category_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="drugCategoryResultMap">
+        SELECT * FROM drug_categories WHERE category_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="drugCategoryResultMap">
+        SELECT * FROM drug_categories;
+    </select>
+
+    <select id="getDrugCategoryByName" parameterType="string" resultMap="drugCategoryResultMap">
+        SELECT * FROM drug_categories WHERE name = #{name};
+    </select>
+</mapper>

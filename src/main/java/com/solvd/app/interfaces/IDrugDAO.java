@@ -6,5 +6,6 @@ import com.solvd.app.models.Manufacturer;
 import java.util.List;
 
 public interface IDrugDAO extends IBaseDAO<Drug> {
+
     List<Drug> getDrugsByManufacturer(Manufacturer manufacturer);
 }

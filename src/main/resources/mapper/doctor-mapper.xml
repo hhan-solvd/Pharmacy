@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IDoctorDAO">
+    <resultMap id="doctorResultMap" type="Doctor" autoMapping="false">
+        <id property="doctorID" column="doctor_id"/>
+        <result property="yearsOfExperience" column="years_of_experience"/>
+        <association property="person" column="person_id"
+                     javaType="Person" select="com.solvd.app.interfaces.IPersonDAO.getEntityByID"/>
+        <association property="specialty" column="specialty_id"
+                     javaType="Specialty" select="com.solvd.app.interfaces.ISpecialtyDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="doctor_id">
+        INSERT INTO doctors (person_id, specialty_id, years_of_experience)
+        VALUES (#{person.personID}, #{specialty.specialtyID}, #{yearsOfExperience});
+    </insert>
+
+    <update id="updateEntity" parameterType="Doctor">
+        UPDATE doctors
+        SET person_id = #{person.personID}, specialty_id = #{specialty.specialtyID},
+        years_of_experience = #{yearsOfExperience}
+        WHERE doctor_id = #{doctorID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM doctors WHERE doctor_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="doctorResultMap">
+        SELECT * FROM doctors WHERE doctor_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="doctorResultMap">
+        SELECT * FROM doctors;
+    </select>
+
+    <select id="getDoctorsBySpecialty" parameterType="string" resultMap="doctorResultMap">
+        SELECT * FROM doctors d
+        INNER JOIN specialties s on d.specialty_id = s.specialty_id
+        WHERE s.name = #{specialty};
+    </select>
+</mapper>

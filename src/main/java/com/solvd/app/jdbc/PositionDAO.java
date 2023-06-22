@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IPositionDAO;
 import com.solvd.app.models.Position;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PositionDAO implements IBaseDAO<Position> {
+public class PositionDAO implements IPositionDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(PositionDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Position position) {
         Connection connection = connectionPool.getConnection();
 
@@ -44,6 +46,7 @@ public class PositionDAO implements IBaseDAO<Position> {
         }
     }
 
+    @Override
     public Position getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Position position = new Position();
@@ -68,6 +71,7 @@ public class PositionDAO implements IBaseDAO<Position> {
         return position;
     }
 
+    @Override
     public void updateEntity(Position position) {
         Connection connection = connectionPool.getConnection();
 
@@ -92,6 +96,7 @@ public class PositionDAO implements IBaseDAO<Position> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -114,6 +119,7 @@ public class PositionDAO implements IBaseDAO<Position> {
         }
     }
 
+    @Override
     public List<Position> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Position> positionList = new ArrayList<>();
@@ -138,5 +144,28 @@ public class PositionDAO implements IBaseDAO<Position> {
         }
 
         return positionList;
+    }
+
+    @Override
+    public double getSalaryByPositionName(String name) {
+        Connection connection = connectionPool.getConnection();
+        double salary = 0.0;
+
+        try {
+            String sql = "SELECT salary FROM positions WHERE name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                salary = resultSet.getDouble("salary");
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get salary by position name: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return salary;
     }
 }

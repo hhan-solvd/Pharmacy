@@ -1,4 +1,4 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
 import com.solvd.app.interfaces.IPrescriptionDAO;
 import com.solvd.app.models.Doctor;
@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrescriptionDAO implements IPrescriptionDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(PrescriptionDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private DoctorDAO doctorDAO = new DoctorDAO();
     private CustomerDAO customerDAO = new CustomerDAO();
 
+    @Override
     public void createEntity(Prescription prescription) {
         Connection connection = connectionPool.getConnection();
 
@@ -48,6 +50,7 @@ public class PrescriptionDAO implements IPrescriptionDAO {
         }
     }
 
+    @Override
     public Prescription getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Prescription prescription = new Prescription();
@@ -73,6 +76,7 @@ public class PrescriptionDAO implements IPrescriptionDAO {
         return prescription;
     }
 
+    @Override
     public void updateEntity(Prescription prescription) {
         Connection connection = connectionPool.getConnection();
 
@@ -99,6 +103,7 @@ public class PrescriptionDAO implements IPrescriptionDAO {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -121,6 +126,7 @@ public class PrescriptionDAO implements IPrescriptionDAO {
         }
     }
 
+    @Override
     public List<Prescription> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Prescription> prescriptionList = new ArrayList<>();
@@ -148,6 +154,7 @@ public class PrescriptionDAO implements IPrescriptionDAO {
         return prescriptionList;
     }
 
+    @Override
     public List<Prescription> getPrescriptionsByDoctor(Doctor doctor) {
         Connection connection = connectionPool.getConnection();
         List<Prescription> prescriptionList = new ArrayList<>();

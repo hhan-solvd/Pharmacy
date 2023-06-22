@@ -3,6 +3,7 @@ package com.solvd.app;
 import com.solvd.app.jaxb.JAXBUtils;
 import com.solvd.app.json.JSONUtils;
 import com.solvd.app.models.*;
+import com.solvd.app.mybatis.*;
 import com.solvd.app.services.*;
 import com.solvd.app.utils.DOMParser;
 import com.solvd.app.utils.XMLValidator;
@@ -10,6 +11,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class Main {
+
     private static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) {
@@ -182,5 +184,23 @@ public class Main {
         Prescription prescription1 = prescriptionService.getPrescriptionByID(12);
         JSONUtils.writeJSON(prescription1, "src/main/resources/json/");
         LOGGER.info(JSONUtils.readJSON("src/main/resources/json/Prescription.json", Prescription.class));
+
+        LOGGER.info("------------------Usage of MyBatis---------------------");
+        MyBatisPersonDAO myBatisPersonDAO = new MyBatisPersonDAO();
+        PersonService personService1 = new PersonService(myBatisPersonDAO);
+        MyBatisSpecialtyDAO myBatisSpecialtyDAO = new MyBatisSpecialtyDAO();
+        SpecialtyService specialtyService1 = new SpecialtyService(myBatisSpecialtyDAO);
+        MyBatisDoctorDAO myBatisDoctorDAO = new MyBatisDoctorDAO();
+        DoctorService doctorService1 = new DoctorService(myBatisDoctorDAO);
+        Doctor doctor1 = new Doctor(personService1.getPersonByID(28), specialtyService1.getSpecialtyByID(17),
+                20);
+        doctorService1.createDoctor(doctor1);
+        Doctor doctor2 = doctorService1.getDoctorByID(12);
+        doctor2.setYearsOfExperience(25);
+        doctorService1.updateDoctor(doctor2);
+        LOGGER.info(doctorService1.getDoctorByID(12));
+        LOGGER.info(doctorService1.getDoctorsBySpecialty("Radiology"));
+        LOGGER.info(doctorService1.getAllDoctors());
+        doctorService1.deleteDoctorByID(66);
     }
 }

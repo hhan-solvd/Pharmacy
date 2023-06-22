@@ -1,13 +1,23 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.DoctorDAO;
+import com.solvd.app.interfaces.IDoctorDAO;
+import com.solvd.app.jdbc.DoctorDAO;
 import com.solvd.app.models.Doctor;
+import com.solvd.app.mybatis.MyBatisDoctorDAO;
 
-import java.sql.SQLException;
 import java.util.List;
 
 public class DoctorService {
-    private DoctorDAO doctorDAO = new DoctorDAO();
+
+    private IDoctorDAO doctorDAO;
+
+    public DoctorService() {
+        this.doctorDAO = new DoctorDAO();
+    }
+
+    public DoctorService(MyBatisDoctorDAO myBatisDoctorDAO) {
+        this.doctorDAO = myBatisDoctorDAO;
+    }
 
     public void createDoctor(Doctor doctor) {
         doctorDAO.createEntity(doctor);
@@ -27,5 +37,9 @@ public class DoctorService {
 
     public List<Doctor> getAllDoctors() {
         return doctorDAO.getAll();
+    }
+
+    public List<Doctor> getDoctorsBySpecialty(String specialty) {
+        return doctorDAO.getDoctorsBySpecialty(specialty);
     }
 }

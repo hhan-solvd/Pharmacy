@@ -1,12 +1,23 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.PersonDAO;
+import com.solvd.app.jdbc.PersonDAO;
+import com.solvd.app.interfaces.IPersonDAO;
+import com.solvd.app.mybatis.MyBatisPersonDAO;
 import com.solvd.app.models.Person;
 
 import java.util.List;
 
 public class PersonService {
-    private PersonDAO personDAO = new PersonDAO();
+
+    private IPersonDAO personDAO;
+
+    public PersonService() {
+        this.personDAO = new PersonDAO();
+    }
+
+    public PersonService(MyBatisPersonDAO myBatisPersonDAO) {
+        this.personDAO = myBatisPersonDAO;
+    }
 
     public void createPerson(Person person) {
         personDAO.createEntity(person);
