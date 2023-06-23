@@ -1,35 +1,21 @@
 package com.solvd.app.daofactories;
 
-import com.solvd.app.interfaces.*;
+import java.lang.reflect.Constructor;
 
 public abstract class AbstractDAOFactory {
 
-    public abstract ICustomerDAO getCustomerDAO();
+    public Object getDAO(String modelName) {
+        try {
+            Class<?> daoClass = Class.forName(getFullClassName(modelName));
+            Constructor<?> constructor = daoClass.getDeclaredConstructor();
+            return constructor.newInstance();
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
-    public abstract IDoctorDAO getDoctorDAO();
-
-    public abstract IDrugCategoryDAO getDrugCategoryDAO();
-
-    public abstract IDrugDAO getDrugDAO();
-
-    public abstract IInventoryDAO getInventoryDAO();
-
-    public abstract IManufacturerDAO getManufacturerDAO();
-
-    public abstract IPersonDAO getPersonDAO();
-
-    public abstract IPharmacyDAO getPharmacyDAO();
-
-    public abstract IPositionDAO getPositionDAO();
-
-    public abstract IPrescriptionDAO getPrescriptionDAO();
-
-    public abstract IPrescriptionItemDAO getPrescriptionItemDAO();
-
-    public abstract ISpecialtyDAO getSpecialtyDAO();
-
-    public abstract IStaffDAO getStaffDAO();
-
-    public abstract ISupplierDAO getSupplierDAO();
+    // this method should return full class name for each modelName
+    protected abstract String getFullClassName(String modelName);
 }
+
 

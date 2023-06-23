@@ -12,7 +12,7 @@ public class SupplierService {
     private ISupplierDAO supplierDAO;
 
     public SupplierService(DAOType type) {
-        this.supplierDAO = DBFactoryGenerator.getFactory(type).getSupplierDAO();
+        this.supplierDAO = (ISupplierDAO) DBFactoryGenerator.getFactory(type).getDAO("Supplier");
     }
 
     public void createSupplier(Supplier supplier) {

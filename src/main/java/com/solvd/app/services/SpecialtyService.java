@@ -12,7 +12,7 @@ public class SpecialtyService {
     private ISpecialtyDAO specialtyDAO;
 
     public SpecialtyService(DAOType type) {
-        this.specialtyDAO = DBFactoryGenerator.getFactory(type).getSpecialtyDAO();
+        this.specialtyDAO = (ISpecialtyDAO) DBFactoryGenerator.getFactory(type).getDAO("Specialty");
     }
 
     public void createSpecialty(Specialty specialty) {

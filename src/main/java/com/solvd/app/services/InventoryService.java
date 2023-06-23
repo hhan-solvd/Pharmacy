@@ -14,7 +14,7 @@ public class InventoryService {
     private PharmacyService pharmacyService;
 
     public InventoryService(DAOType type) {
-        this.inventoryDAO = DBFactoryGenerator.getFactory(type).getInventoryDAO();
+        this.inventoryDAO = (IInventoryDAO) DBFactoryGenerator.getFactory(type).getDAO("Inventory");
         this.drugService = new DrugService(type);
         this.pharmacyService = new PharmacyService(type);
     }

@@ -14,7 +14,7 @@ public class DoctorService {
     private SpecialtyService specialtyService;
 
     public DoctorService(DAOType type) {
-        this.doctorDAO = DBFactoryGenerator.getFactory(type).getDoctorDAO();
+        this.doctorDAO = (IDoctorDAO) DBFactoryGenerator.getFactory(type).getDAO("Doctor");
         this.personService = new PersonService(type);
         this.specialtyService = new SpecialtyService(type);
     }

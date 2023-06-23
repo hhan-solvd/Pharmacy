@@ -12,7 +12,7 @@ public class ManufacturerService {
     private IManufacturerDAO manufacturerDAO;
 
     public ManufacturerService(DAOType type) {
-        this.manufacturerDAO = DBFactoryGenerator.getFactory(type).getManufacturerDAO();
+        this.manufacturerDAO = (IManufacturerDAO) DBFactoryGenerator.getFactory(type).getDAO("Manufacturer");
     }
 
     public void createManufacturer(Manufacturer manufacturer) {

@@ -13,7 +13,7 @@ public class CustomerService {
     private PersonService personService;
 
     public CustomerService(DAOType type) {
-        this.customerDAO = DBFactoryGenerator.getFactory(type).getCustomerDAO();
+        this.customerDAO = (ICustomerDAO) DBFactoryGenerator.getFactory(type).getDAO("Customer");
         this.personService = new PersonService(type);
     }
 

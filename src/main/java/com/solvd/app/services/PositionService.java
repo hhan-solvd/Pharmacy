@@ -12,7 +12,7 @@ public class PositionService {
     private IPositionDAO positionDAO;
 
     public PositionService(DAOType type) {
-        this.positionDAO = DBFactoryGenerator.getFactory(type).getPositionDAO();
+        this.positionDAO = (IPositionDAO) DBFactoryGenerator.getFactory(type).getDAO("Position");
     }
 
     public void createPosition(Position position) {

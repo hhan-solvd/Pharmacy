@@ -16,7 +16,7 @@ public class StaffService {
     private PositionService positionService;
 
     public StaffService(DAOType type) {
-        this.staffDAO = DBFactoryGenerator.getFactory(type).getStaffDAO();
+        this.staffDAO = (IStaffDAO) DBFactoryGenerator.getFactory(type).getDAO("Staff");
         this.personService = new PersonService(type);
         this.pharmacyService = new PharmacyService(type);
         this.positionService = new PositionService(type);

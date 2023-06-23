@@ -15,8 +15,8 @@ public class PharmacyService {
     private IStaffDAO staffDAO;
 
     public PharmacyService(DAOType type) {
-        this.pharmacyDAO = DBFactoryGenerator.getFactory(type).getPharmacyDAO();
-        this.staffDAO = DBFactoryGenerator.getFactory(type).getStaffDAO();
+        this.pharmacyDAO = (IPharmacyDAO) DBFactoryGenerator.getFactory(type).getDAO("Pharmacy");
+        this.staffDAO = (IStaffDAO) DBFactoryGenerator.getFactory(type).getDAO("Staff");
     }
 
     public void createPharmacy(Pharmacy pharmacy) {

@@ -12,7 +12,7 @@ public class DrugCategoryService {
     private IDrugCategoryDAO drugCategoryDAO;
 
     public DrugCategoryService(DAOType type) {
-        this.drugCategoryDAO = DBFactoryGenerator.getFactory(type).getDrugCategoryDAO();
+        this.drugCategoryDAO = (IDrugCategoryDAO) DBFactoryGenerator.getFactory(type).getDAO("DrugCategory");
     }
 
     public void createDrugCategory(DrugCategory drugCategory) {

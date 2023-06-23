@@ -12,7 +12,7 @@ public class PersonService {
     private IPersonDAO personDAO;
 
     public PersonService(DAOType type) {
-        this.personDAO = DBFactoryGenerator.getFactory(type).getPersonDAO();
+        this.personDAO = (IPersonDAO) DBFactoryGenerator.getFactory(type).getDAO("Person");
     }
 
     public void createPerson(Person person) {

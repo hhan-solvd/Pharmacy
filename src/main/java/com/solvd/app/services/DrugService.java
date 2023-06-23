@@ -16,7 +16,7 @@ public class DrugService {
     private DrugCategoryService drugCategoryService;
 
     public DrugService(DAOType type) {
-        this.drugDAO = DBFactoryGenerator.getFactory(type).getDrugDAO();
+        this.drugDAO = (IDrugDAO) DBFactoryGenerator.getFactory(type).getDAO("Drug");
         this.supplierService = new SupplierService(type);
         this.manufacturerService = new ManufacturerService(type);
         this.drugCategoryService = new DrugCategoryService(type);

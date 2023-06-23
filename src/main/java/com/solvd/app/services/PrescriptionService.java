@@ -16,8 +16,9 @@ public class PrescriptionService {
     private PrescriptionItemDAO prescriptionItemDAO;
 
     public PrescriptionService(DAOType type) {
-        this.prescriptionDAO = DBFactoryGenerator.getFactory(type).getPrescriptionDAO();
-        this.prescriptionItemDAO = (PrescriptionItemDAO) DBFactoryGenerator.getFactory(type).getPrescriptionItemDAO();
+        this.prescriptionDAO = (IPrescriptionDAO) DBFactoryGenerator.getFactory(type).getDAO("Prescription");
+        this.prescriptionItemDAO =
+                (PrescriptionItemDAO) DBFactoryGenerator.getFactory(type).getDAO("PrescriptionItem");
         this.doctorService = new DoctorService(type);
         this.customerService = new CustomerService(type);
     }
