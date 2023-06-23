@@ -13,7 +13,7 @@
                      javaType="Customer" select="com.solvd.app.interfaces.ICustomerDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" parameterType="Prescription">
+    <insert id="createEntity" keyProperty="prescriptionID" useGeneratedKeys="true">
         INSERT INTO prescriptions (prescription_date, doctor_id, customer_id)
         VALUES (#{prescriptionDate}, #{doctor.doctorID}, #{customer.customerID});
     </insert>

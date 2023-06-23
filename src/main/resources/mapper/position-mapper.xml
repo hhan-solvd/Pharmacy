@@ -10,7 +10,7 @@
         <result property="salary" column="salary"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="position_id">
+    <insert id="createEntity" keyProperty="positionID" useGeneratedKeys="true">
         INSERT INTO positions (name, salary)
         VALUES (#{name}, #{salary});
     </insert>

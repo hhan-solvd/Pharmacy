@@ -13,7 +13,7 @@
                      javaType="Specialty" select="com.solvd.app.interfaces.ISpecialtyDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="doctor_id">
+    <insert id="createEntity" keyProperty="doctorID" useGeneratedKeys="true">
         INSERT INTO doctors (person_id, specialty_id, years_of_experience)
         VALUES (#{person.personID}, #{specialty.specialtyID}, #{yearsOfExperience});
     </insert>

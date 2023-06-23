@@ -9,7 +9,7 @@
         <result property="name" column="name"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="category_id">
+    <insert id="createEntity" keyProperty="categoryID" useGeneratedKeys="true">
         INSERT INTO drug_categories (name)
         VALUES (#{name});
     </insert>

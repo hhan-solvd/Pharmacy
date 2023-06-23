@@ -14,7 +14,7 @@
                      javaType="Position" select="com.solvd.app.interfaces.IPositionDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="staff_id">
+    <insert id="createEntity" keyProperty="staffID" useGeneratedKeys="true">
         INSERT INTO staff (person_id, pharmacy_id, position_id)
         VALUES (#{person.personID}, #{pharmacy.pharmacyID}, #{position.positionID});
     </insert>

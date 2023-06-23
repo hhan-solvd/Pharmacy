@@ -13,7 +13,7 @@
                      javaType="Pharmacy" select="com.solvd.app.interfaces.IPharmacyDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="inventoryID">
+    <insert id="createEntity" keyProperty="inventoryID" useGeneratedKeys="true">
         INSERT INTO inventory (quantity, drug_id, pharmacy_id)
         VALUES (#{quantity}, #{drug.drugID}, #{pharmacy.pharmacyID});
     </insert>

@@ -11,7 +11,7 @@
         <result property="phoneNumber" column="phone_number"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="supplier_id">
+    <insert id="createEntity" keyProperty="supplierID" useGeneratedKeys="true">
         INSERT INTO suppliers (name, address, phone_number)
         VALUES (#{name}, #{address}, #{phoneNumber});
     </insert>

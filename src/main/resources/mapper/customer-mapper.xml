@@ -10,7 +10,7 @@
                      javaType="Person" select="com.solvd.app.interfaces.IPersonDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="customerID">
+    <insert id="createEntity" keyProperty="customerID" useGeneratedKeys="true">
         INSERT INTO customers (person_id)
         VALUES (#{person.personID});
     </insert>

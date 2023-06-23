@@ -16,7 +16,7 @@
                      javaType="DrugCategory" select="com.solvd.app.interfaces.IDrugCategoryDAO.getEntityByID"/>
     </resultMap>
 
-    <insert id="createEntity" keyProperty="drugID">
+    <insert id="createEntity" keyProperty="drugID" useGeneratedKeys="true">
         INSERT INTO drugs (name, supplier_id, manufacturer_id, category_id, price)
         VALUES (#{name}, #{supplier.supplierID}, #{manufacturer.manufacturerID},
         #{drugCategory.categoryID}, #{price});
