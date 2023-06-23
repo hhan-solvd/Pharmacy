@@ -9,7 +9,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-public class MyBatisPrescriptionItemDAO implements IPrescriptionItemDAO {
+public class PrescriptionItemDAO implements IPrescriptionItemDAO {
 
     private SqlSessionFactory sqlSessionFactory = MyBatisSqlFactory.getSqlSessionFactory();
 

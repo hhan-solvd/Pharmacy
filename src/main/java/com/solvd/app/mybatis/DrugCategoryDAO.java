@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-public class MyBatisDrugCategoryDAO implements IDrugCategoryDAO {
+public class DrugCategoryDAO implements IDrugCategoryDAO {
 
     private SqlSessionFactory sqlSessionFactory = MyBatisSqlFactory.getSqlSessionFactory();
 

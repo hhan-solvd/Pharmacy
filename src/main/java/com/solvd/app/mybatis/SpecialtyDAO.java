@@ -8,7 +8,7 @@ import org.apache.ibatis.session.SqlSessionFactory;
 
 import java.util.List;
 
-public class MyBatisSpecialtyDAO implements ISpecialtyDAO {
+public class SpecialtyDAO implements ISpecialtyDAO {
 
     private SqlSessionFactory sqlSessionFactory = MyBatisSqlFactory.getSqlSessionFactory();
 
