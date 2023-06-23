@@ -1,12 +1,19 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.PersonDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.IPersonDAO;
 import com.solvd.app.models.Person;
 
 import java.util.List;
 
 public class PersonService {
-    private PersonDAO personDAO = new PersonDAO();
+
+    private IPersonDAO personDAO;
+
+    public PersonService(DAOType type) {
+        this.personDAO = (IPersonDAO) DBFactoryGenerator.getFactory(type).getDAO("Person");
+    }
 
     public void createPerson(Person person) {
         personDAO.createEntity(person);

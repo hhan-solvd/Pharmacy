@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IManufacturerDAO;
 import com.solvd.app.models.Manufacturer;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
+public class ManufacturerDAO implements IManufacturerDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(ManufacturerDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Manufacturer manufacturer) {
         Connection connection = connectionPool.getConnection();
 
@@ -43,6 +45,7 @@ public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
         }
     }
 
+    @Override
     public Manufacturer getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Manufacturer manufacturer = new Manufacturer();
@@ -66,6 +69,7 @@ public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
         return manufacturer;
     }
 
+    @Override
     public void updateEntity(Manufacturer manufacturer) {
         Connection connection = connectionPool.getConnection();
 
@@ -89,6 +93,7 @@ public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -111,6 +116,7 @@ public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
         }
     }
 
+    @Override
     public List<Manufacturer> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Manufacturer> manufacturerList = new ArrayList<>();
@@ -129,6 +135,33 @@ public class ManufacturerDAO implements IBaseDAO<Manufacturer> {
             }
         } catch (SQLException e) {
             LOGGER.error("Error when trying to get all manufacturers: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return manufacturerList;
+    }
+
+    @Override
+    public List<Manufacturer> getManufacturersByName(String name) {
+        Connection connection = connectionPool.getConnection();
+        List<Manufacturer> manufacturerList = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM manufacturers WHERE name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Manufacturer manufacturer = new Manufacturer();
+                manufacturer.setManufacturerID(resultSet.getInt("manufacturer_id"));
+                manufacturer.setName(resultSet.getString("name"));
+
+                manufacturerList.add(manufacturer);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get manufacturers by name: " + e.getMessage());
         } finally {
             connectionPool.releaseConnection(connection);
         }

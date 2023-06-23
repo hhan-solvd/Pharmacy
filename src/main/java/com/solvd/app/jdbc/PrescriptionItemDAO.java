@@ -1,4 +1,4 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
 import com.solvd.app.interfaces.IPrescriptionItemDAO;
 import com.solvd.app.models.Prescription;
@@ -12,11 +12,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PrescriptionItemDAO implements IPrescriptionItemDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(PrescriptionItemDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private PrescriptionDAO prescriptionDAO = new PrescriptionDAO();
     private DrugDAO drugDAO = new DrugDAO();
 
+    @Override
     public void createEntity(PrescriptionItem prescriptionItem) {
         Connection connection = connectionPool.getConnection();
 
@@ -48,6 +50,7 @@ public class PrescriptionItemDAO implements IPrescriptionItemDAO {
         }
     }
 
+    @Override
     public PrescriptionItem getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         PrescriptionItem prescriptionItem = new PrescriptionItem();
@@ -74,6 +77,7 @@ public class PrescriptionItemDAO implements IPrescriptionItemDAO {
         return prescriptionItem;
     }
 
+    @Override
     public void updateEntity(PrescriptionItem prescriptionItem) {
         Connection connection = connectionPool.getConnection();
 
@@ -100,6 +104,7 @@ public class PrescriptionItemDAO implements IPrescriptionItemDAO {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -122,6 +127,7 @@ public class PrescriptionItemDAO implements IPrescriptionItemDAO {
         }
     }
 
+    @Override
     public List<PrescriptionItem> getAll() {
         Connection connection = connectionPool.getConnection();
         List<PrescriptionItem> prescriptionItemList = new ArrayList<>();
@@ -150,6 +156,7 @@ public class PrescriptionItemDAO implements IPrescriptionItemDAO {
         return prescriptionItemList;
     }
 
+    @Override
     public List<PrescriptionItem> getItemsByPrescription(Prescription prescription) {
         Connection connection = connectionPool.getConnection();
         List<PrescriptionItem> prescriptionItemList = new ArrayList<>();

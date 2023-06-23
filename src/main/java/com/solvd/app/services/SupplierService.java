@@ -1,12 +1,19 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.SupplierDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.ISupplierDAO;
 import com.solvd.app.models.Supplier;
 
 import java.util.List;
 
 public class SupplierService {
-    private SupplierDAO supplierDAO = new SupplierDAO();
+
+    private ISupplierDAO supplierDAO;
+
+    public SupplierService(DAOType type) {
+        this.supplierDAO = (ISupplierDAO) DBFactoryGenerator.getFactory(type).getDAO("Supplier");
+    }
 
     public void createSupplier(Supplier supplier) {
         supplierDAO.createEntity(supplier);
@@ -26,5 +33,9 @@ public class SupplierService {
 
     public List<Supplier> getAllSuppliers() {
         return supplierDAO.getAll();
+    }
+
+    public Supplier getSupplierByAddress(String address) {
+        return supplierDAO.getSupplierByAddress(address);
     }
 }

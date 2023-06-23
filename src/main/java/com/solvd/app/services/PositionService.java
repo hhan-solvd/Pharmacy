@@ -1,12 +1,19 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.PositionDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.IPositionDAO;
 import com.solvd.app.models.Position;
 
 import java.util.List;
 
 public class PositionService {
-    private PositionDAO positionDAO = new PositionDAO();
+
+    private IPositionDAO positionDAO;
+
+    public PositionService(DAOType type) {
+        this.positionDAO = (IPositionDAO) DBFactoryGenerator.getFactory(type).getDAO("Position");
+    }
 
     public void createPosition(Position position) {
         positionDAO.createEntity(position);
@@ -26,5 +33,9 @@ public class PositionService {
 
     public List<Position> getAllPositions() {
         return positionDAO.getAll();
+    }
+
+    public double getSalaryByPositionName(String name) {
+        return positionDAO.getSalaryByPositionName(name);
     }
 }

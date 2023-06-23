@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IDrugCategoryDAO;
 import com.solvd.app.models.DrugCategory;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
+public class DrugCategoryDAO implements IDrugCategoryDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(DrugCategoryDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(DrugCategory drugCategory) {
         Connection connection = connectionPool.getConnection();
 
@@ -43,6 +45,7 @@ public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
         }
     }
 
+    @Override
     public DrugCategory getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         DrugCategory drugCategory = new DrugCategory();
@@ -66,6 +69,7 @@ public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
         return drugCategory;
     }
 
+    @Override
     public void updateEntity(DrugCategory drugCategory) {
         Connection connection = connectionPool.getConnection();
 
@@ -89,6 +93,7 @@ public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -111,6 +116,7 @@ public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
         }
     }
 
+    @Override
     public List<DrugCategory> getAll() {
         Connection connection = connectionPool.getConnection();
         List<DrugCategory> drugCategoryList = new ArrayList<>();
@@ -134,5 +140,29 @@ public class DrugCategoryDAO implements IBaseDAO<DrugCategory> {
         }
 
         return drugCategoryList;
+    }
+
+    @Override
+    public DrugCategory getDrugCategoryByName(String name) {
+        Connection connection = connectionPool.getConnection();
+        DrugCategory drugCategory = new DrugCategory();
+
+        try {
+            String sql = "SELECT * FROM drug_categories WHERE name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                drugCategory.setCategoryID(resultSet.getInt("category_id"));
+                drugCategory.setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get drug category by name: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return drugCategory;
     }
 }

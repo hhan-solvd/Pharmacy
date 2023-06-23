@@ -1,4 +1,4 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
 import com.solvd.app.interfaces.IStaffDAO;
 import com.solvd.app.models.Pharmacy;
@@ -12,12 +12,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class StaffDAO implements IStaffDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(StaffDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private PersonDAO personDAO = new PersonDAO();
     private PharmacyDAO pharmacyDAO = new PharmacyDAO();
     private PositionDAO positionDAO = new PositionDAO();
 
+    @Override
     public void createEntity(Staff staff) {
         Connection connection = connectionPool.getConnection();
 
@@ -49,6 +51,7 @@ public class StaffDAO implements IStaffDAO {
         }
     }
 
+    @Override
     public Staff getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Staff staff = new Staff();
@@ -74,6 +77,7 @@ public class StaffDAO implements IStaffDAO {
         return staff;
     }
 
+    @Override
     public void updateEntity(Staff staff) {
         Connection connection = connectionPool.getConnection();
 
@@ -99,6 +103,7 @@ public class StaffDAO implements IStaffDAO {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -121,6 +126,7 @@ public class StaffDAO implements IStaffDAO {
         }
     }
 
+    @Override
     public List<Staff> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Staff> staffList = new ArrayList<>();
@@ -148,6 +154,7 @@ public class StaffDAO implements IStaffDAO {
         return staffList;
     }
 
+    @Override
     public List<Staff> getStaffByPharmacy(Pharmacy pharmacy) {
         Connection connection = connectionPool.getConnection();
         List<Staff> staffList = new ArrayList<>();

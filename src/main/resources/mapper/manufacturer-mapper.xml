@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IManufacturerDAO">
+    <resultMap id="ManufacturerResultMap" type="Manufacturer" autoMapping="false">
+        <result property="manufacturerID" column="manufacturer_id"/>
+        <result property="name" column="name"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="manufacturerID" useGeneratedKeys="true">
+        INSERT INTO manufacturers (manufacturer_id, name)
+        VALUES (#{manufacturerID}, #{name});
+    </insert>
+
+    <update id="updateEntity" parameterType="Manufacturer">
+        UPDATE manufacturers
+        SET name = #{name}
+        WHERE manufacturer_id = #{manufacturerID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM manufacturers
+        WHERE manufacturer_id = #{manufacturerID};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="ManufacturerResultMap">
+        SELECT * FROM manufacturers
+        WHERE manufacturer_id = #{manufacturerID};
+    </select>
+
+    <select id="getAll" resultMap="ManufacturerResultMap">
+        SELECT * FROM manufacturers;
+    </select>
+
+    <select id="getManufacturersByName" resultMap="ManufacturerResultMap">
+        SELECT * FROM manufacturers WHERE name = #{name};
+    </select>
+</mapper>
+

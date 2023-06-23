@@ -1,14 +1,33 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.InventoryDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.IInventoryDAO;
 import com.solvd.app.models.Inventory;
 
 import java.util.List;
 
 public class InventoryService {
-    private InventoryDAO inventoryDAO = new InventoryDAO();
+
+    private IInventoryDAO inventoryDAO;
+    private DrugService drugService;
+    private PharmacyService pharmacyService;
+
+    public InventoryService(DAOType type) {
+        this.inventoryDAO = (IInventoryDAO) DBFactoryGenerator.getFactory(type).getDAO("Inventory");
+        this.drugService = new DrugService(type);
+        this.pharmacyService = new PharmacyService(type);
+    }
 
     public void createInventory(Inventory inventory) {
+        if (inventory.getDrug().getDrugID() == 0) {
+            drugService.createDrug(inventory.getDrug());
+        }
+
+        if (inventory.getPharmacy().getPharmacyID() == 0) {
+            pharmacyService.createPharmacy(inventory.getPharmacy());
+        }
+
         inventoryDAO.createEntity(inventory);
     }
 
@@ -17,6 +36,14 @@ public class InventoryService {
     }
 
     public void updateInventory(Inventory inventory) {
+        if (inventory.getDrug().getDrugID() == 0) {
+            drugService.createDrug(inventory.getDrug());
+        }
+
+        if (inventory.getPharmacy().getPharmacyID() == 0) {
+            pharmacyService.createPharmacy(inventory.getPharmacy());
+        }
+
         inventoryDAO.updateEntity(inventory);
     }
 
@@ -26,5 +53,9 @@ public class InventoryService {
 
     public List<Inventory> getAllInventories() {
         return inventoryDAO.getAll();
+    }
+
+    public int getInventoryQuantityByID(int id) {
+        return inventoryDAO.getInventoryQuantityByID(id);
     }
 }

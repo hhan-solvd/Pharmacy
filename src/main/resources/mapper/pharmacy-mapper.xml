@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IPharmacyDAO">
+    <resultMap id="pharmacyResultMap" type="Pharmacy" autoMapping="false">
+        <id property="pharmacyID" column="pharmacy_id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="pharmacyID" useGeneratedKeys="true">
+        INSERT INTO pharmacies (name, address, phone_number)
+        VALUES (#{name}, #{address}, #{phoneNumber});
+    </insert>
+
+    <update id="updateEntity" parameterType="Pharmacy">
+        UPDATE pharmacies
+        SET name = #{name}, address = #{address}, phone_number = #{phoneNumber}
+        WHERE pharmacy_id = #{pharmacyID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM pharmacies WHERE pharmacy_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="pharmacyResultMap">
+        SELECT * FROM pharmacies WHERE pharmacy_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="pharmacyResultMap">
+        SELECT * FROM pharmacies;
+    </select>
+
+    <select id="getPharmacyByAddress" resultMap="pharmacyResultMap">
+        SELECT * FROM pharmacies WHERE address = #{address};
+    </select>
+</mapper>

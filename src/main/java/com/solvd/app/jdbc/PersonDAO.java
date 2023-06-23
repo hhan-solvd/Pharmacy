@@ -1,4 +1,4 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
 import java.sql.*;
 import java.util.ArrayList;
@@ -11,9 +11,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class PersonDAO implements IPersonDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(PersonDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Person person) {
         Connection connection = connectionPool.getConnection();
 
@@ -47,6 +49,7 @@ public class PersonDAO implements IPersonDAO {
         }
     }
 
+    @Override
     public Person getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Person person = new Person();
@@ -74,6 +77,7 @@ public class PersonDAO implements IPersonDAO {
         return person;
     }
 
+    @Override
     public Person getPersonByNameAndPhoneNumber(String name, int phoneNumber) {
         Connection connection = connectionPool.getConnection();
         Person person = new Person();
@@ -102,6 +106,7 @@ public class PersonDAO implements IPersonDAO {
         return person;
     }
 
+    @Override
     public void updateEntity(Person person) {
         Connection connection = connectionPool.getConnection();
 
@@ -129,6 +134,7 @@ public class PersonDAO implements IPersonDAO {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -151,6 +157,7 @@ public class PersonDAO implements IPersonDAO {
         }
     }
 
+    @Override
     public List<Person> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Person> personList = new ArrayList<>();

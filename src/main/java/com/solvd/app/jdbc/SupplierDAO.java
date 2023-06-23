@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.ISupplierDAO;
 import com.solvd.app.models.Supplier;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SupplierDAO implements IBaseDAO<Supplier> {
+public class SupplierDAO implements ISupplierDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(SupplierDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Supplier supplier) {
         Connection connection = connectionPool.getConnection();
 
@@ -45,6 +47,7 @@ public class SupplierDAO implements IBaseDAO<Supplier> {
         }
     }
 
+    @Override
     public Supplier getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Supplier supplier = new Supplier();
@@ -70,6 +73,7 @@ public class SupplierDAO implements IBaseDAO<Supplier> {
         return supplier;
     }
 
+    @Override
     public void updateEntity(Supplier supplier) {
         Connection connection = connectionPool.getConnection();
 
@@ -95,6 +99,7 @@ public class SupplierDAO implements IBaseDAO<Supplier> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -117,6 +122,7 @@ public class SupplierDAO implements IBaseDAO<Supplier> {
         }
     }
 
+    @Override
     public List<Supplier> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Supplier> supplierList = new ArrayList<>();
@@ -142,5 +148,31 @@ public class SupplierDAO implements IBaseDAO<Supplier> {
         }
 
         return supplierList;
+    }
+
+    @Override
+    public Supplier getSupplierByAddress(String address) {
+        Connection connection = connectionPool.getConnection();
+        Supplier supplier = new Supplier();
+
+        try {
+            String sql = "SELECT * FROM suppliers WHERE address = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, address);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                supplier.setSupplierID(resultSet.getInt("supplier_id"));
+                supplier.setName(resultSet.getString("name"));
+                supplier.setAddress(resultSet.getString("address"));
+                supplier.setPhoneNumber(resultSet.getInt("phone_number"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get supplier by address: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return supplier;
     }
 }

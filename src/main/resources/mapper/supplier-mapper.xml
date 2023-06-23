@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.ISupplierDAO">
+    <resultMap id="supplierResultMap" type="Supplier" autoMapping="false">
+        <id property="supplierID" column="supplier_id"/>
+        <result property="name" column="name"/>
+        <result property="address" column="address"/>
+        <result property="phoneNumber" column="phone_number"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="supplierID" useGeneratedKeys="true">
+        INSERT INTO suppliers (name, address, phone_number)
+        VALUES (#{name}, #{address}, #{phoneNumber});
+    </insert>
+
+    <update id="updateEntity" parameterType="Supplier">
+        UPDATE suppliers
+        SET name = #{name}, address = #{address}, phone_number = #{phoneNumber}
+        WHERE supplier_id = #{supplierID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM suppliers WHERE supplier_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="supplierResultMap">
+        SELECT * FROM suppliers WHERE supplier_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="supplierResultMap">
+        SELECT * FROM suppliers;
+    </select>
+
+    <select id="getSupplierByAddress" resultMap="supplierResultMap">
+        SELECT * FROM suppliers WHERE address = #{address};
+    </select>
+</mapper>

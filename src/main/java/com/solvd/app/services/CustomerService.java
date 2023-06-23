@@ -1,14 +1,26 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.CustomerDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.ICustomerDAO;
 import com.solvd.app.models.Customer;
 
 import java.util.List;
 
 public class CustomerService {
-    private CustomerDAO customerDAO = new CustomerDAO();
+
+    private ICustomerDAO customerDAO;
+    private PersonService personService;
+
+    public CustomerService(DAOType type) {
+        this.customerDAO = (ICustomerDAO) DBFactoryGenerator.getFactory(type).getDAO("Customer");
+        this.personService = new PersonService(type);
+    }
 
     public void createCustomer(Customer customer) {
+        if (customer.getPerson().getPersonID() == 0) {
+            personService.createPerson(customer.getPerson());
+        }
         customerDAO.createEntity(customer);
     }
 
@@ -17,6 +29,9 @@ public class CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
+        if (customer.getPerson().getPersonID() == 0) {
+            personService.createPerson(customer.getPerson());
+        }
         customerDAO.updateEntity(customer);
     }
 
@@ -26,5 +41,9 @@ public class CustomerService {
 
     public List<Customer> getAllCustomers() {
         return customerDAO.getAll();
+    }
+
+    public List<Customer> getCustomersByName(String name) {
+        return customerDAO.getCustomersByName(name);
     }
 }

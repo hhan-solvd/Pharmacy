@@ -1,14 +1,23 @@
 package com.solvd.app.services;
 
-import com.solvd.app.dao.PharmacyDAO;
-import com.solvd.app.dao.StaffDAO;
+import com.solvd.app.daofactories.DBFactoryGenerator;
+import com.solvd.app.enums.DAOType;
+import com.solvd.app.interfaces.IPharmacyDAO;
+import com.solvd.app.interfaces.IStaffDAO;
 import com.solvd.app.models.Pharmacy;
 import com.solvd.app.models.Staff;
 
 import java.util.List;
 
 public class PharmacyService {
-    private PharmacyDAO pharmacyDAO = new PharmacyDAO();
+
+    private IPharmacyDAO pharmacyDAO;
+    private IStaffDAO staffDAO;
+
+    public PharmacyService(DAOType type) {
+        this.pharmacyDAO = (IPharmacyDAO) DBFactoryGenerator.getFactory(type).getDAO("Pharmacy");
+        this.staffDAO = (IStaffDAO) DBFactoryGenerator.getFactory(type).getDAO("Staff");
+    }
 
     public void createPharmacy(Pharmacy pharmacy) {
         pharmacyDAO.createEntity(pharmacy);
@@ -16,7 +25,7 @@ public class PharmacyService {
 
     public Pharmacy getPharmacyByID(int id) {
         Pharmacy pharmacy = pharmacyDAO.getEntityByID(id);
-        List<Staff> staff = new StaffDAO().getStaffByPharmacy(pharmacy);
+        List<Staff> staff = staffDAO.getStaffByPharmacy(pharmacy);
         pharmacy.setStaff(staff);
         return pharmacy;
     }
@@ -30,6 +39,20 @@ public class PharmacyService {
     }
 
     public List<Pharmacy> getAllPharmacies() {
-        return pharmacyDAO.getAll();
+        List<Pharmacy> pharmacyList = pharmacyDAO.getAll();
+
+        for (Pharmacy pharmacy : pharmacyList) {
+            List<Staff> staff = staffDAO.getStaffByPharmacy(pharmacy);
+            pharmacy.setStaff(staff);
+        }
+
+        return pharmacyList;
+    }
+
+    public Pharmacy getPharmacyByAddress(String address) {
+        Pharmacy pharmacy = pharmacyDAO.getPharmacyByAddress(address);
+        List<Staff> staff = staffDAO.getStaffByPharmacy(pharmacy);
+        pharmacy.setStaff(staff);
+        return pharmacy;
     }
 }

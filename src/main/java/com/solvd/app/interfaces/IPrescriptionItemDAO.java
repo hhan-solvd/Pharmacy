@@ -6,5 +6,6 @@ import com.solvd.app.models.PrescriptionItem;
 import java.util.List;
 
 public interface IPrescriptionItemDAO extends IBaseDAO<PrescriptionItem> {
+
     List<PrescriptionItem> getItemsByPrescription(Prescription prescription);
 }

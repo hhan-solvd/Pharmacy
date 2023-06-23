@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.IDoctorDAO;
 import com.solvd.app.models.Doctor;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,12 +10,14 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DoctorDAO implements IBaseDAO<Doctor> {
+public class DoctorDAO implements IDoctorDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(DoctorDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private PersonDAO personDAO = new PersonDAO();
     private SpecialtyDAO specialtyDAO = new SpecialtyDAO();
 
+    @Override
     public void createEntity(Doctor doctor) {
         Connection connection = connectionPool.getConnection();
 
@@ -47,6 +49,7 @@ public class DoctorDAO implements IBaseDAO<Doctor> {
         }
     }
 
+    @Override
     public Doctor getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Doctor doctor = new Doctor();
@@ -72,6 +75,7 @@ public class DoctorDAO implements IBaseDAO<Doctor> {
         return doctor;
     }
 
+    @Override
     public void updateEntity(Doctor doctor) {
         Connection connection = connectionPool.getConnection();
 
@@ -98,6 +102,7 @@ public class DoctorDAO implements IBaseDAO<Doctor> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -120,6 +125,7 @@ public class DoctorDAO implements IBaseDAO<Doctor> {
         }
     }
 
+    @Override
     public List<Doctor> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Doctor> doctorList = new ArrayList<>();
@@ -140,6 +146,35 @@ public class DoctorDAO implements IBaseDAO<Doctor> {
             }
         } catch (SQLException e) {
             LOGGER.error("Error when trying to get all doctors: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return doctorList;
+    }
+
+    @Override
+    public List<Doctor> getDoctorsBySpecialty(String specialty) {
+        Connection connection = connectionPool.getConnection();
+        List<Doctor> doctorList = new ArrayList<>();
+
+        try {
+            String sql = "SELECT * FROM doctors d INNER JOIN specialties s " +
+                    "ON d.specialty_id = s.specialty_id WHERE s.name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, specialty);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            while (resultSet.next()) {
+                Doctor doctor = new Doctor();
+                doctor.setDoctorID(resultSet.getInt("doctor_id"));
+                doctor.setPerson(personDAO.getEntityByID(resultSet.getInt("person_id")));
+                doctor.setSpecialty(specialtyDAO.getEntityByID(resultSet.getInt("specialty_id")));
+                doctor.setYearsOfExperience(resultSet.getInt("years_of_experience"));
+                doctorList.add(doctor);
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get doctors by specialty: " + e.getMessage());
         } finally {
             connectionPool.releaseConnection(connection);
         }

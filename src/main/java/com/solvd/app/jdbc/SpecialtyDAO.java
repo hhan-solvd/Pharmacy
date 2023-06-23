@@ -1,6 +1,6 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
-import com.solvd.app.interfaces.IBaseDAO;
+import com.solvd.app.interfaces.ISpecialtyDAO;
 import com.solvd.app.models.Specialty;
 import com.solvd.app.utils.ConnectionPool;
 import org.apache.logging.log4j.LogManager;
@@ -10,10 +10,12 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpecialtyDAO implements IBaseDAO<Specialty> {
+public class SpecialtyDAO implements ISpecialtyDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(SpecialtyDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
 
+    @Override
     public void createEntity(Specialty specialty) {
         Connection connection = connectionPool.getConnection();
 
@@ -43,6 +45,7 @@ public class SpecialtyDAO implements IBaseDAO<Specialty> {
         }
     }
 
+    @Override
     public Specialty getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Specialty specialty = new Specialty();
@@ -66,6 +69,7 @@ public class SpecialtyDAO implements IBaseDAO<Specialty> {
         return specialty;
     }
 
+    @Override
     public void updateEntity(Specialty specialty) {
         Connection connection = connectionPool.getConnection();
 
@@ -89,6 +93,7 @@ public class SpecialtyDAO implements IBaseDAO<Specialty> {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -111,6 +116,7 @@ public class SpecialtyDAO implements IBaseDAO<Specialty> {
         }
     }
 
+    @Override
     public List<Specialty> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Specialty> specialtyList = new ArrayList<>();
@@ -134,5 +140,29 @@ public class SpecialtyDAO implements IBaseDAO<Specialty> {
         }
 
         return specialtyList;
+    }
+
+    @Override
+    public Specialty getSpecialtyByName(String name) {
+        Connection connection = connectionPool.getConnection();
+        Specialty specialty = new Specialty();
+
+        try {
+            String sql = "SELECT * FROM specialties WHERE name = ?";
+            PreparedStatement preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                specialty.setSpecialtyID(resultSet.getInt("specialty_id"));
+                specialty.setName(resultSet.getString("name"));
+            }
+        } catch (SQLException e) {
+            LOGGER.error("Error when trying to get specialty by name: " + e.getMessage());
+        } finally {
+            connectionPool.releaseConnection(connection);
+        }
+
+        return specialty;
     }
 }

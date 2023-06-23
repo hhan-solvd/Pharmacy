@@ -1,4 +1,4 @@
-package com.solvd.app.dao;
+package com.solvd.app.jdbc;
 
 import com.solvd.app.interfaces.IDrugDAO;
 import com.solvd.app.models.*;
@@ -11,12 +11,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class DrugDAO implements IDrugDAO {
+
     private static final Logger LOGGER = LogManager.getLogger(DrugDAO.class);
     private ConnectionPool connectionPool = ConnectionPool.getInstance();
     private SupplierDAO supplierDAO = new SupplierDAO();
     private ManufacturerDAO manufacturerDAO = new ManufacturerDAO();
     private DrugCategoryDAO drugCategoryDAO = new DrugCategoryDAO();
 
+    @Override
     public void createEntity(Drug drug) {
         Connection connection = connectionPool.getConnection();
 
@@ -51,6 +53,7 @@ public class DrugDAO implements IDrugDAO {
         }
     }
 
+    @Override
     public Drug getEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
         Drug drug = new Drug();
@@ -78,6 +81,7 @@ public class DrugDAO implements IDrugDAO {
         return drug;
     }
 
+    @Override
     public void updateEntity(Drug drug) {
         Connection connection = connectionPool.getConnection();
 
@@ -106,6 +110,7 @@ public class DrugDAO implements IDrugDAO {
         }
     }
 
+    @Override
     public void deleteEntityByID(int id) {
         Connection connection = connectionPool.getConnection();
 
@@ -128,6 +133,7 @@ public class DrugDAO implements IDrugDAO {
         }
     }
 
+    @Override
     public List<Drug> getAll() {
         Connection connection = connectionPool.getConnection();
         List<Drug> drugList = new ArrayList<>();
@@ -157,6 +163,7 @@ public class DrugDAO implements IDrugDAO {
         return drugList;
     }
 
+    @Override
     public List<Drug> getDrugsByManufacturer(Manufacturer manufacturer) {
         Connection connection = connectionPool.getConnection();
         List<Drug> drugList = new ArrayList<>();

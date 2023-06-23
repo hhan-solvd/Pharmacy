@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.IDrugDAO">
+    <resultMap id="drugResultMap" type="Drug" autoMapping="false">
+        <id property="drugID" column="drug_id"/>
+        <result property="name" column="name"/>
+        <result property="price" column="price"/>
+        <association property="supplier" column="supplier_id"
+                     javaType="Supplier" select="com.solvd.app.interfaces.ISupplierDAO.getEntityByID"/>
+        <association property="manufacturer" column="manufacturer_id"
+                     javaType="Manufacturer" select="com.solvd.app.interfaces.IManufacturerDAO.getEntityByID"/>
+        <association property="drugCategory" column="category_id"
+                     javaType="DrugCategory" select="com.solvd.app.interfaces.IDrugCategoryDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="drugID" useGeneratedKeys="true">
+        INSERT INTO drugs (name, supplier_id, manufacturer_id, category_id, price)
+        VALUES (#{name}, #{supplier.supplierID}, #{manufacturer.manufacturerID},
+        #{drugCategory.categoryID}, #{price});
+    </insert>
+
+    <update id="updateEntity" parameterType="Drug">
+        UPDATE drugs
+        SET name = #{name}, supplier_id = #{supplier.supplierID}, manufacturer_id = #{manufacturer.manufacturerID},
+        category_id = #{drugCategory.categoryID}, price = #{price}
+        WHERE drug_id = #{drugID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM drugs WHERE drug_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="drugResultMap">
+        SELECT * FROM drugs WHERE drug_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="drugResultMap">
+        SELECT * FROM drugs;
+    </select>
+
+    <select id="getDrugsByManufacturer" parameterType="Manufacturer" resultMap="drugResultMap">
+        SELECT * FROM drugs
+        WHERE manufacturer_id = #{manufacturerID};
+    </select>
+</mapper>

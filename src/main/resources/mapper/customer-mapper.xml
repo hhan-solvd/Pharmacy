@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.solvd.app.interfaces.ICustomerDAO">
+    <resultMap id="customerResultMap" type="Customer" autoMapping="false">
+        <id property="customerID" column="customer_id"/>
+        <association property="person" column="person_id"
+                     javaType="Person" select="com.solvd.app.interfaces.IPersonDAO.getEntityByID"/>
+    </resultMap>
+
+    <insert id="createEntity" keyProperty="customerID" useGeneratedKeys="true">
+        INSERT INTO customers (person_id)
+        VALUES (#{person.personID});
+    </insert>
+
+    <update id="updateEntity" parameterType="Customer">
+        UPDATE customers
+        SET person_id = #{person.personID}
+        WHERE customer_id = #{customerID};
+    </update>
+
+    <delete id="deleteEntityByID" parameterType="int">
+        DELETE FROM customers WHERE customer_id = #{id};
+    </delete>
+
+    <select id="getEntityByID" parameterType="int" resultMap="customerResultMap">
+        SELECT * FROM customers WHERE customer_id = #{id};
+    </select>
+
+    <select id="getAll" resultMap="customerResultMap">
+        SELECT * FROM customers;
+    </select>
+
+    <select id="getCustomersByName" parameterType="string" resultMap="customerResultMap">
+        SELECT * FROM customers c
+        INNER JOIN people p on c.person_id = p.person_id
+        WHERE p.name = #{name};
+    </select>
+</mapper>
