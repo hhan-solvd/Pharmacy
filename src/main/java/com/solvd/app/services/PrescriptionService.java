@@ -1,38 +1,36 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.PrescriptionDAO;
-import com.solvd.app.jdbc.PrescriptionItemDAO;
 import com.solvd.app.interfaces.IPrescriptionDAO;
-import com.solvd.app.interfaces.IPrescriptionItemDAO;
-import com.solvd.app.models.Doctor;
-import com.solvd.app.models.Prescription;
-import com.solvd.app.models.PrescriptionItem;
-import com.solvd.app.mybatis.MyBatisPrescriptionDAO;
-import com.solvd.app.mybatis.MyBatisPrescriptionItemDAO;
+import com.solvd.app.jdbc.PrescriptionItemDAO;
+import com.solvd.app.models.*;
 
 import java.util.List;
 
 public class PrescriptionService {
 
     private IPrescriptionDAO prescriptionDAO;
-    private IPrescriptionItemDAO prescriptionItemDAO;
+    private DoctorService doctorService;
+    private CustomerService customerService;
+    private PrescriptionItemDAO prescriptionItemDAO;
 
     public PrescriptionService(DAOType type) {
-        switch (type) {
-            case JDBC -> {
-                this.prescriptionDAO = new PrescriptionDAO();
-                this.prescriptionItemDAO = new PrescriptionItemDAO();
-            }
-            case MYBATIS -> {
-                this.prescriptionDAO = new MyBatisPrescriptionDAO();
-                this.prescriptionItemDAO = new MyBatisPrescriptionItemDAO();
-            }
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.prescriptionDAO = DBFactoryGenerator.getFactory(type).getPrescriptionDAO();
+        this.prescriptionItemDAO = (PrescriptionItemDAO) DBFactoryGenerator.getFactory(type).getPrescriptionItemDAO();
+        this.doctorService = new DoctorService(type);
+        this.customerService = new CustomerService(type);
     }
 
     public void createPrescription(Prescription prescription) {
+        if (prescription.getDoctor().getDoctorID() == 0) {
+            doctorService.createDoctor(prescription.getDoctor());
+        }
+
+        if (prescription.getCustomer().getCustomerID() == 0) {
+            customerService.createCustomer(prescription.getCustomer());
+        }
+
         prescriptionDAO.createEntity(prescription);
     }
 
@@ -44,6 +42,14 @@ public class PrescriptionService {
     }
 
     public void updatePrescription(Prescription prescription) {
+        if (prescription.getDoctor().getDoctorID() == 0) {
+            doctorService.createDoctor(prescription.getDoctor());
+        }
+
+        if (prescription.getCustomer().getCustomerID() == 0) {
+            customerService.createCustomer(prescription.getCustomer());
+        }
+
         prescriptionDAO.updateEntity(prescription);
     }
 
@@ -52,10 +58,24 @@ public class PrescriptionService {
     }
 
     public List<Prescription> getAllPrescriptions() {
-        return prescriptionDAO.getAll();
+        List<Prescription> prescriptionList = prescriptionDAO.getAll();
+
+        for (Prescription prescription : prescriptionList) {
+            List<PrescriptionItem> prescriptionItems = prescriptionItemDAO.getItemsByPrescription(prescription);
+            prescription.setPrescriptionItems(prescriptionItems);
+        }
+
+        return prescriptionList;
     }
 
     public List<Prescription> getPrescriptionsByDoctors(Doctor doctor) {
-        return prescriptionDAO.getPrescriptionsByDoctor(doctor);
+        List<Prescription> prescriptionList = prescriptionDAO.getPrescriptionsByDoctor(doctor);
+
+        for (Prescription prescription : prescriptionList) {
+            List<PrescriptionItem> prescriptionItems = prescriptionItemDAO.getItemsByPrescription(prescription);
+            prescription.setPrescriptionItems(prescriptionItems);
+        }
+
+        return prescriptionList;
     }
 }

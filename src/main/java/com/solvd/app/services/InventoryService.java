@@ -1,9 +1,8 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.InventoryDAO;
 import com.solvd.app.interfaces.IInventoryDAO;
-import com.solvd.app.mybatis.MyBatisInventoryDAO;
 import com.solvd.app.models.Inventory;
 
 import java.util.List;
@@ -11,16 +10,24 @@ import java.util.List;
 public class InventoryService {
 
     private IInventoryDAO inventoryDAO;
+    private DrugService drugService;
+    private PharmacyService pharmacyService;
 
     public InventoryService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.inventoryDAO = new InventoryDAO();
-            case MYBATIS -> this.inventoryDAO = new MyBatisInventoryDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.inventoryDAO = DBFactoryGenerator.getFactory(type).getInventoryDAO();
+        this.drugService = new DrugService(type);
+        this.pharmacyService = new PharmacyService(type);
     }
 
     public void createInventory(Inventory inventory) {
+        if (inventory.getDrug().getDrugID() == 0) {
+            drugService.createDrug(inventory.getDrug());
+        }
+
+        if (inventory.getPharmacy().getPharmacyID() == 0) {
+            pharmacyService.createPharmacy(inventory.getPharmacy());
+        }
+
         inventoryDAO.createEntity(inventory);
     }
 
@@ -29,6 +36,14 @@ public class InventoryService {
     }
 
     public void updateInventory(Inventory inventory) {
+        if (inventory.getDrug().getDrugID() == 0) {
+            drugService.createDrug(inventory.getDrug());
+        }
+
+        if (inventory.getPharmacy().getPharmacyID() == 0) {
+            pharmacyService.createPharmacy(inventory.getPharmacy());
+        }
+
         inventoryDAO.updateEntity(inventory);
     }
 

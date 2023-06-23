@@ -1,26 +1,26 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
 import com.solvd.app.interfaces.ICustomerDAO;
-import com.solvd.app.jdbc.CustomerDAO;
 import com.solvd.app.models.Customer;
-import com.solvd.app.mybatis.MyBatisCustomerDAO;
 
 import java.util.List;
 
 public class CustomerService {
 
     private ICustomerDAO customerDAO;
+    private PersonService personService;
 
     public CustomerService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.customerDAO = new CustomerDAO();
-            case MYBATIS -> this.customerDAO = new MyBatisCustomerDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.customerDAO = DBFactoryGenerator.getFactory(type).getCustomerDAO();
+        this.personService = new PersonService(type);
     }
 
     public void createCustomer(Customer customer) {
+        if (customer.getPerson().getPersonID() == 0) {
+            personService.createPerson(customer.getPerson());
+        }
         customerDAO.createEntity(customer);
     }
 
@@ -29,6 +29,9 @@ public class CustomerService {
     }
 
     public void updateCustomer(Customer customer) {
+        if (customer.getPerson().getPersonID() == 0) {
+            personService.createPerson(customer.getPerson());
+        }
         customerDAO.updateEntity(customer);
     }
 

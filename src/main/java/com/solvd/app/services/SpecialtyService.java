@@ -1,9 +1,8 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.SpecialtyDAO;
 import com.solvd.app.interfaces.ISpecialtyDAO;
-import com.solvd.app.mybatis.MyBatisSpecialtyDAO;
 import com.solvd.app.models.Specialty;
 
 import java.util.List;
@@ -12,13 +11,8 @@ public class SpecialtyService {
 
     private ISpecialtyDAO specialtyDAO;
 
-
     public SpecialtyService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.specialtyDAO = new SpecialtyDAO();
-            case MYBATIS -> this.specialtyDAO = new MyBatisSpecialtyDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.specialtyDAO = DBFactoryGenerator.getFactory(type).getSpecialtyDAO();
     }
 
     public void createSpecialty(Specialty specialty) {

@@ -1,9 +1,8 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.PositionDAO;
 import com.solvd.app.interfaces.IPositionDAO;
-import com.solvd.app.mybatis.MyBatisPositionDAO;
 import com.solvd.app.models.Position;
 
 import java.util.List;
@@ -13,11 +12,7 @@ public class PositionService {
     private IPositionDAO positionDAO;
 
     public PositionService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.positionDAO = new PositionDAO();
-            case MYBATIS -> this.positionDAO = new MyBatisPositionDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.positionDAO = DBFactoryGenerator.getFactory(type).getPositionDAO();
     }
 
     public void createPosition(Position position) {

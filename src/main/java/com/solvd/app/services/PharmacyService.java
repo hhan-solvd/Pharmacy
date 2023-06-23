@@ -1,12 +1,9 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.PharmacyDAO;
-import com.solvd.app.jdbc.StaffDAO;
 import com.solvd.app.interfaces.IPharmacyDAO;
 import com.solvd.app.interfaces.IStaffDAO;
-import com.solvd.app.mybatis.MyBatisPharmacyDAO;
-import com.solvd.app.mybatis.MyBatisStaffDAO;
 import com.solvd.app.models.Pharmacy;
 import com.solvd.app.models.Staff;
 
@@ -18,17 +15,8 @@ public class PharmacyService {
     private IStaffDAO staffDAO;
 
     public PharmacyService(DAOType type) {
-        switch (type) {
-            case JDBC -> {
-                this.pharmacyDAO = new PharmacyDAO();
-                this.staffDAO = new StaffDAO();
-            }
-            case MYBATIS -> {
-                this.pharmacyDAO = new MyBatisPharmacyDAO();
-                this.staffDAO = new MyBatisStaffDAO();
-            }
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.pharmacyDAO = DBFactoryGenerator.getFactory(type).getPharmacyDAO();
+        this.staffDAO = DBFactoryGenerator.getFactory(type).getStaffDAO();
     }
 
     public void createPharmacy(Pharmacy pharmacy) {

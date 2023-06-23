@@ -1,26 +1,33 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
 import com.solvd.app.interfaces.IDoctorDAO;
-import com.solvd.app.jdbc.DoctorDAO;
 import com.solvd.app.models.Doctor;
-import com.solvd.app.mybatis.MyBatisDoctorDAO;
 
 import java.util.List;
 
 public class DoctorService {
 
     private IDoctorDAO doctorDAO;
+    private PersonService personService;
+    private SpecialtyService specialtyService;
 
     public DoctorService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.doctorDAO = new DoctorDAO();
-            case MYBATIS -> this.doctorDAO = new MyBatisDoctorDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.doctorDAO = DBFactoryGenerator.getFactory(type).getDoctorDAO();
+        this.personService = new PersonService(type);
+        this.specialtyService = new SpecialtyService(type);
     }
 
     public void createDoctor(Doctor doctor) {
+        if (doctor.getPerson().getPersonID() == 0) {
+            personService.createPerson(doctor.getPerson());
+        }
+
+        if (doctor.getSpecialty().getSpecialtyID() == 0) {
+            specialtyService.createSpecialty(doctor.getSpecialty());
+        }
+
         doctorDAO.createEntity(doctor);
     }
 
@@ -29,6 +36,14 @@ public class DoctorService {
     }
 
     public void updateDoctor(Doctor doctor) {
+        if (doctor.getPerson().getPersonID() == 0) {
+            personService.createPerson(doctor.getPerson());
+        }
+
+        if (doctor.getSpecialty().getSpecialtyID() == 0) {
+            specialtyService.createSpecialty(doctor.getSpecialty());
+        }
+
         doctorDAO.updateEntity(doctor);
     }
 

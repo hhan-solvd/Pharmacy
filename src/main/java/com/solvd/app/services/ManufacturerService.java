@@ -1,9 +1,8 @@
 package com.solvd.app.services;
 
+import com.solvd.app.daofactories.DBFactoryGenerator;
 import com.solvd.app.enums.DAOType;
-import com.solvd.app.jdbc.ManufacturerDAO;
 import com.solvd.app.interfaces.IManufacturerDAO;
-import com.solvd.app.mybatis.MyBatisManufacturerDAO;
 import com.solvd.app.models.Manufacturer;
 
 import java.util.List;
@@ -13,11 +12,7 @@ public class ManufacturerService {
     private IManufacturerDAO manufacturerDAO;
 
     public ManufacturerService(DAOType type) {
-        switch (type) {
-            case JDBC -> this.manufacturerDAO = new ManufacturerDAO();
-            case MYBATIS -> this.manufacturerDAO = new MyBatisManufacturerDAO();
-            default -> throw new IllegalArgumentException("Invalid DAO type");
-        }
+        this.manufacturerDAO = DBFactoryGenerator.getFactory(type).getManufacturerDAO();
     }
 
     public void createManufacturer(Manufacturer manufacturer) {
