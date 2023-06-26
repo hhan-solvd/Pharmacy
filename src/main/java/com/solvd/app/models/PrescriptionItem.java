@@ -32,10 +32,42 @@ public class PrescriptionItem {
     public PrescriptionItem() {
     }
 
-    public PrescriptionItem(int quantityPrescribed, Prescription prescription, Drug drug) {
-        this.quantityPrescribed = quantityPrescribed;
-        this.prescription = prescription;
-        this.drug = drug;
+    private PrescriptionItem(Builder builder) {
+        this.prescriptionItemID = builder.prescriptionItemID;
+        this.quantityPrescribed = builder.quantityPrescribed;
+        this.prescription = builder.prescription;
+        this.drug = builder.drug;
+    }
+
+    public static class Builder {
+        private int prescriptionItemID;
+        private int quantityPrescribed;
+        private Prescription prescription;
+        private Drug drug;
+
+        public Builder withPrescriptionItemID(int prescriptionItemID) {
+            this.prescriptionItemID = prescriptionItemID;
+            return this;
+        }
+
+        public Builder withQuantityPrescribed(int quantityPrescribed) {
+            this.quantityPrescribed = quantityPrescribed;
+            return this;
+        }
+
+        public Builder withPrescription(Prescription prescription) {
+            this.prescription = prescription;
+            return this;
+        }
+
+        public Builder withDrug(Drug drug) {
+            this.drug = drug;
+            return this;
+        }
+
+        public PrescriptionItem build() {
+            return new PrescriptionItem(this);
+        }
     }
 
     public int getPrescriptionItemID() {

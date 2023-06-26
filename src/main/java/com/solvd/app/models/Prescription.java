@@ -41,10 +41,49 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(Date prescriptionDate, Doctor doctor, Customer customer) {
-        this.prescriptionDate = prescriptionDate;
-        this.doctor = doctor;
-        this.customer = customer;
+    private Prescription(Builder builder) {
+        this.prescriptionID = builder.prescriptionID;
+        this.prescriptionDate = builder.prescriptionDate;
+        this.doctor = builder.doctor;
+        this.customer = builder.customer;
+        this.prescriptionItems = builder.prescriptionItems;
+    }
+
+    public static class Builder {
+        private int prescriptionID;
+        private Date prescriptionDate;
+        private Doctor doctor;
+        private Customer customer;
+        private List<PrescriptionItem> prescriptionItems;
+
+        public Builder withPrescriptionID(int prescriptionID) {
+            this.prescriptionID = prescriptionID;
+            return this;
+        }
+
+        public Builder withPrescriptionDate(Date prescriptionDate) {
+            this.prescriptionDate = prescriptionDate;
+            return this;
+        }
+
+        public Builder withDoctor(Doctor doctor) {
+            this.doctor = doctor;
+            return this;
+        }
+
+        public Builder withCustomer(Customer customer) {
+            this.customer = customer;
+            return this;
+        }
+
+        public Builder withPrescriptionItems(List<PrescriptionItem> prescriptionItems) {
+            this.prescriptionItems = prescriptionItems;
+            return this;
+        }
+
+        public Prescription build() {
+            return new Prescription(this);
+        }
     }
 
     public int getPrescriptionID() {

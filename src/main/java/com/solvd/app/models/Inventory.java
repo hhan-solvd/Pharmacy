@@ -29,10 +29,42 @@ public class Inventory {
     public Inventory() {
     }
 
-    public Inventory(int quantity, Drug drug, Pharmacy pharmacy) {
-        this.quantity = quantity;
-        this.drug = drug;
-        this.pharmacy = pharmacy;
+    private Inventory(Builder builder) {
+        this.inventoryID = builder.inventoryID;
+        this.quantity = builder.quantity;
+        this.drug = builder.drug;
+        this.pharmacy = builder.pharmacy;
+    }
+
+    public static class Builder {
+        private int inventoryID;
+        private int quantity;
+        private Drug drug;
+        private Pharmacy pharmacy;
+
+        public Builder withInventoryID(int inventoryID) {
+            this.inventoryID = inventoryID;
+            return this;
+        }
+
+        public Builder withQuantity(int quantity) {
+            this.quantity = quantity;
+            return this;
+        }
+
+        public Builder withDrug(Drug drug) {
+            this.drug = drug;
+            return this;
+        }
+
+        public Builder withPharmacy(Pharmacy pharmacy) {
+            this.pharmacy = pharmacy;
+            return this;
+        }
+
+        public Inventory build() {
+            return new Inventory(this);
+        }
     }
 
     public int getInventoryID() {

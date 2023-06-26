@@ -35,10 +35,49 @@ public class Pharmacy {
     public Pharmacy() {
     }
 
-    public Pharmacy(String name, String address, int phoneNumber) {
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+    private Pharmacy(Builder builder) {
+        this.pharmacyID = builder.pharmacyID;
+        this.name = builder.name;
+        this.address = builder.address;
+        this.phoneNumber = builder.phoneNumber;
+        this.staff = builder.staff;
+    }
+
+    public static class Builder {
+        private int pharmacyID;
+        private String name;
+        private String address;
+        private int phoneNumber;
+        private List<Staff> staff;
+
+        public Builder withPharmacyID(int pharmacyID) {
+            this.pharmacyID = pharmacyID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder withPhoneNumber(int phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder withStaff(List<Staff> staff) {
+            this.staff = staff;
+            return this;
+        }
+
+        public Pharmacy build() {
+            return new Pharmacy(this);
+        }
     }
 
     public int getPharmacyID() {
@@ -92,3 +131,4 @@ public class Pharmacy {
                 '}';
     }
 }
+

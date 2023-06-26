@@ -25,9 +25,35 @@ public class Position {
     public Position() {
     }
 
-    public Position(String name, double salary) {
-        this.name = name;
-        this.salary = salary;
+    private Position(Builder builder) {
+        this.positionID = builder.positionID;
+        this.name = builder.name;
+        this.salary = builder.salary;
+    }
+
+    public static class Builder {
+        private int positionID;
+        private String name;
+        private double salary;
+
+        public Builder withPositionID(int positionID) {
+            this.positionID = positionID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withSalary(double salary) {
+            this.salary = salary;
+            return this;
+        }
+
+        public Position build() {
+            return new Position(this);
+        }
     }
 
     public int getPositionID() {

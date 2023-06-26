@@ -30,10 +30,42 @@ public class Staff {
     public Staff() {
     }
 
-    public Staff(Person person, Pharmacy pharmacy, Position position) {
-        this.person = person;
-        this.pharmacy = pharmacy;
-        this.position = position;
+    private Staff(Builder builder) {
+        this.staffID = builder.staffID;
+        this.person = builder.person;
+        this.pharmacy = builder.pharmacy;
+        this.position = builder.position;
+    }
+
+    public static class Builder {
+        private int staffID;
+        private Person person;
+        private Pharmacy pharmacy;
+        private Position position;
+
+        public Builder withStaffID(int staffID) {
+            this.staffID = staffID;
+            return this;
+        }
+
+        public Builder withPerson(Person person) {
+            this.person = person;
+            return this;
+        }
+
+        public Builder withPharmacy(Pharmacy pharmacy) {
+            this.pharmacy = pharmacy;
+            return this;
+        }
+
+        public Builder withPosition(Position position) {
+            this.position = position;
+            return this;
+        }
+
+        public Staff build() {
+            return new Staff(this);
+        }
     }
 
     public int getStaffID() {

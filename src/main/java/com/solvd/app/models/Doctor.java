@@ -29,10 +29,42 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(Person person, Specialty specialty, int yearsOfExperience) {
-        this.person = person;
-        this.specialty = specialty;
-        this.yearsOfExperience = yearsOfExperience;
+    private Doctor(Builder builder) {
+        this.doctorID = builder.doctorID;
+        this.person = builder.person;
+        this.specialty = builder.specialty;
+        this.yearsOfExperience = builder.yearsOfExperience;
+    }
+
+    public static class Builder {
+        private int doctorID;
+        private Person person;
+        private Specialty specialty;
+        private int yearsOfExperience;
+
+        public Builder withDoctorID(int doctorID) {
+            this.doctorID = doctorID;
+            return this;
+        }
+
+        public Builder withPerson(Person person) {
+            this.person = person;
+            return this;
+        }
+
+        public Builder withSpecialty(Specialty specialty) {
+            this.specialty = specialty;
+            return this;
+        }
+
+        public Builder withYearsOfExperience(int yearsOfExperience) {
+            this.yearsOfExperience = yearsOfExperience;
+            return this;
+        }
+
+        public Doctor build() {
+            return new Doctor(this);
+        }
     }
 
     public int getDoctorID() {

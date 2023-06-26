@@ -37,12 +37,56 @@ public class Person {
     public Person() {
     }
 
-    public Person(String name, String address, int phoneNumber, String email, String gender) {
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.email = email;
-        this.gender = gender;
+    private Person(Builder builder) {
+        this.personID = builder.personID;
+        this.name = builder.name;
+        this.address = builder.address;
+        this.phoneNumber = builder.phoneNumber;
+        this.email = builder.email;
+        this.gender = builder.gender;
+    }
+
+    public static class Builder {
+        private int personID;
+        private String name;
+        private String address;
+        private int phoneNumber;
+        private String email;
+        private String gender;
+
+        public Builder withPersonID(int personID) {
+            this.personID = personID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder withPhoneNumber(int phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Builder withEmail(String email) {
+            this.email = email;
+            return this;
+        }
+
+        public Builder withGender(String gender) {
+            this.gender = gender;
+            return this;
+        }
+
+        public Person build() {
+            return new Person(this);
+        }
     }
 
     public int getPersonID() {

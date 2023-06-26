@@ -21,8 +21,28 @@ public class Manufacturer {
     public Manufacturer() {
     }
 
-    public Manufacturer(String name) {
-        this.name = name;
+    private Manufacturer(Builder builder) {
+        this.manufacturerID = builder.manufacturerID;
+        this.name = builder.name;
+    }
+
+    public static class Builder {
+        private int manufacturerID;
+        private String name;
+
+        public Builder withManufacturerID(int manufacturerID) {
+            this.manufacturerID = manufacturerID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Manufacturer build() {
+            return new Manufacturer(this);
+        }
     }
 
     public int getManufacturerID() {

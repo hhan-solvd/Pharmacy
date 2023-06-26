@@ -29,10 +29,42 @@ public class Supplier {
     public Supplier() {
     }
 
-    public Supplier(String name, String address, int phoneNumber) {
-        this.name = name;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
+    private Supplier(Builder builder) {
+        this.supplierID = builder.supplierID;
+        this.name = builder.name;
+        this.address = builder.address;
+        this.phoneNumber = builder.phoneNumber;
+    }
+
+    public static class Builder {
+        private int supplierID;
+        private String name;
+        private String address;
+        private int phoneNumber;
+
+        public Builder withSupplierID(int supplierID) {
+            this.supplierID = supplierID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withAddress(String address) {
+            this.address = address;
+            return this;
+        }
+
+        public Builder withPhoneNumber(int phoneNumber) {
+            this.phoneNumber = phoneNumber;
+            return this;
+        }
+
+        public Supplier build() {
+            return new Supplier(this);
+        }
     }
 
     public int getSupplierID() {
