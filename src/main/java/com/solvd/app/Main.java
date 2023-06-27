@@ -91,7 +91,12 @@ public class Main {
                 .withCustomer(customer)
                 .withDiscountPercentage(20)
                 .build();
-
         customerService.createCustomer(vipCustomer);
+
+        VIPCustomer vipCustomer1 = new VIPCustomer.Builder()
+                .withCustomer(customerService.getCustomerByID(7))
+                .withDiscountPercentage(15)
+                .build();
+        vipCustomer1.saveToFile("VIPCustomer");
     }
 }

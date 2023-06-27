@@ -2,14 +2,17 @@ package com.solvd.app.decorators;
 
 import com.solvd.app.interfaces.ICustomerDecorator;
 import com.solvd.app.models.Person;
+import com.solvd.app.utils.CustomerFileManager;
 
 public class VIPCustomer extends CustomerDecorator {
 
     private double discountPercentage;
+    private CustomerFileManager customerFileManager;
 
     private VIPCustomer(Builder builder) {
         super(builder.customer);
         this.discountPercentage = builder.discountPercentage;
+        this.customerFileManager = new CustomerFileManager();
     }
 
     public static class Builder {
@@ -44,6 +47,10 @@ public class VIPCustomer extends CustomerDecorator {
     @Override
     public Person getPerson() {
         return super.getPerson();
+    }
+
+    public void saveToFile(String filename) {
+        customerFileManager.saveCustomerToFile(this, filename);
     }
 
     @Override
