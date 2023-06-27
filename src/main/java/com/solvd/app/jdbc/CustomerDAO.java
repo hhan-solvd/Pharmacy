@@ -21,9 +21,10 @@ public class CustomerDAO implements ICustomerDAO {
         Connection connection = connectionPool.getConnection();
 
         try {
-            String sql = "INSERT INTO customers (person_id) VALUES (?)";
+            String sql = "INSERT INTO customers (person_id, discount_percentage) VALUES (?, ?)";
             PreparedStatement preparedStatement = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
             preparedStatement.setInt(1, customer.getPerson().getPersonID());
+            preparedStatement.setDouble(2, customer.getDiscountPercentage());
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -60,6 +61,7 @@ public class CustomerDAO implements ICustomerDAO {
             while (resultSet.next()) {
                 customer.setCustomerID(resultSet.getInt("customer_id"));
                 customer.setPerson(personDAO.getEntityByID(resultSet.getInt("person_id")));
+                customer.setDiscountPercentage(resultSet.getDouble("discount_percentage"));
             }
         } catch (SQLException e) {
             LOGGER.error("Error when trying to get customer: " + e.getMessage());
@@ -75,10 +77,11 @@ public class CustomerDAO implements ICustomerDAO {
         Connection connection = connectionPool.getConnection();
 
         try {
-            String sql = "UPDATE customers SET person_id = ? WHERE customer_id = ?";
+            String sql = "UPDATE customers SET person_id = ?, discount_percentage = ? WHERE customer_id = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setInt(1, customer.getPerson().getPersonID());
-            preparedStatement.setInt(2, customer.getCustomerID());
+            preparedStatement.setDouble(2, customer.getDiscountPercentage());
+            preparedStatement.setInt(3, customer.getCustomerID());
 
             int affectedRows = preparedStatement.executeUpdate();
 
@@ -131,6 +134,7 @@ public class CustomerDAO implements ICustomerDAO {
                 Customer customer = new Customer();
                 customer.setCustomerID(resultSet.getInt("customer_id"));
                 customer.setPerson(personDAO.getEntityByID(resultSet.getInt("person_id")));
+                customer.setDiscountPercentage(resultSet.getDouble("discount_percentage"));
 
                 customerList.add(customer);
             }
@@ -158,6 +162,7 @@ public class CustomerDAO implements ICustomerDAO {
                 Customer customer = new Customer();
                 customer.setCustomerID(resultSet.getInt("customer_id"));
                 customer.setPerson(personDAO.getEntityByID(resultSet.getInt("person_id")));
+                customer.setDiscountPercentage(resultSet.getDouble("discount_percentage"));
 
                 customerList.add(customer);
             }

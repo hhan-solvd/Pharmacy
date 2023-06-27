@@ -37,12 +37,56 @@ public class Drug {
     public Drug() {
     }
 
-    public Drug(String name, Supplier supplier, Manufacturer manufacturer, DrugCategory drugCategory, double price) {
-        this.name = name;
-        this.supplier = supplier;
-        this.manufacturer = manufacturer;
-        this.drugCategory = drugCategory;
-        this.price = price;
+    private Drug(Builder builder) {
+        this.drugID = builder.drugID;
+        this.name = builder.name;
+        this.supplier = builder.supplier;
+        this.manufacturer = builder.manufacturer;
+        this.drugCategory = builder.drugCategory;
+        this.price = builder.price;
+    }
+
+    public static class Builder {
+        private int drugID;
+        private String name;
+        private Supplier supplier;
+        private Manufacturer manufacturer;
+        private DrugCategory drugCategory;
+        private double price;
+
+        public Builder withDrugID(int drugID) {
+            this.drugID = drugID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Builder withSupplier(Supplier supplier) {
+            this.supplier = supplier;
+            return this;
+        }
+
+        public Builder withManufacturer(Manufacturer manufacturer) {
+            this.manufacturer = manufacturer;
+            return this;
+        }
+
+        public Builder withDrugCategory(DrugCategory drugCategory) {
+            this.drugCategory = drugCategory;
+            return this;
+        }
+
+        public Builder withPrice(double price) {
+            this.price = price;
+            return this;
+        }
+
+        public Drug build() {
+            return new Drug(this);
+        }
     }
 
     public int getDrugID() {

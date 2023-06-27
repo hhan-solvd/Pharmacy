@@ -23,7 +23,6 @@ public class StaffService {
     }
 
     public void createStaff(Staff staff) {
-        System.out.println(staff.getPerson().getPersonID());
         if (staff.getPerson().getPersonID() == 0) {
             personService.createPerson(staff.getPerson());
         }

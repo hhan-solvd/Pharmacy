@@ -21,8 +21,28 @@ public class DrugCategory {
     public DrugCategory() {
     }
 
-    public DrugCategory(String name) {
-        this.name = name;
+    private DrugCategory(Builder builder) {
+        this.categoryID = builder.categoryID;
+        this.name = builder.name;
+    }
+
+    public static class Builder {
+        private int categoryID;
+        private String name;
+
+        public Builder withCategoryID(int categoryID) {
+            this.categoryID = categoryID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public DrugCategory build() {
+            return new DrugCategory(this);
+        }
     }
 
     public int getCategoryID() {

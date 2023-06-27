@@ -21,8 +21,28 @@ public class Specialty {
     public Specialty() {
     }
 
-    public Specialty(String name) {
-        this.name = name;
+    private Specialty(Builder builder) {
+        this.specialtyID = builder.specialtyID;
+        this.name = builder.name;
+    }
+
+    public static class Builder {
+        private int specialtyID;
+        private String name;
+
+        public Builder withSpecialtyID(int specialtyID) {
+            this.specialtyID = specialtyID;
+            return this;
+        }
+
+        public Builder withName(String name) {
+            this.name = name;
+            return this;
+        }
+
+        public Specialty build() {
+            return new Specialty(this);
+        }
     }
 
     public int getSpecialtyID() {
